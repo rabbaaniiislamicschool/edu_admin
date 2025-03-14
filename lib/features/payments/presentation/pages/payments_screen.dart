@@ -6,6 +6,6 @@ class PaymentsScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Siswa')));
+    return Scaffold(appBar: AppBar(title: Text('Pembayaran')));
   }
 }

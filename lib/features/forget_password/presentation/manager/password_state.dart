@@ -7,7 +7,7 @@ import '../../../auth/domain/entities/user.dart';
 part 'password_state.freezed.dart';
 
 @freezed
-class PasswordState with _$PasswordState {
+abstract class PasswordState with _$PasswordState {
 
   const factory PasswordState({
     required bool isLoading,

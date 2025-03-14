@@ -5,7 +5,7 @@ import '../../../domain/entities/user.dart';
 part 'user_login_data.freezed.dart';
 
 @freezed
-class UserLoginData with _$UserLoginData {
+abstract class UserLoginData with _$UserLoginData {
   const factory UserLoginData({
     required String studentNumberId,
     required String password,

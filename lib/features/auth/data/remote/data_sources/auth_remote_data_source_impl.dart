@@ -19,13 +19,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, UserModel>> login(
-    String email,
+    String phoneNumber,
     String password,
   ) async {
     return safeRequest(
       () async {
         final response = await client.auth.signInWithPassword(
-          email: email,
+          phone: phoneNumber,
           password: password,
         );
         if (response.user == null) {

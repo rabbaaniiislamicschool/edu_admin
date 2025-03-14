@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) {
         emit(state.copyWith(
+          errorMessage: failure.message,
           status: AuthStatus.failure,
         ));
       },
@@ -51,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
     final result = await _loginUseCase.execute(LoginParams(
-      studentNumberId: event.studentNumberId,
+      phoneNumber: event.studentNumberId,
       password: event.password,
     ));
 

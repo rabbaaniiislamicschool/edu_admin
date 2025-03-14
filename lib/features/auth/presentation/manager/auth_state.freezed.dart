@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,211 +10,163 @@ part of 'auth_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$AuthState {
-  AuthStatus get status => throw _privateConstructorUsedError;
-  String? get errorMessage => throw _privateConstructorUsedError;
-  User? get currentUser => throw _privateConstructorUsedError;
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AuthStateCopyWith<AuthState> get copyWith =>
-      throw _privateConstructorUsedError;
+ AuthStatus get status; String? get errorMessage; User? get currentUser;
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>(this as AuthState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.currentUser, currentUser) || other.currentUser == currentUser));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,errorMessage,currentUser);
+
+@override
+String toString() {
+  return 'AuthState(status: $status, errorMessage: $errorMessage, currentUser: $currentUser)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AuthStateCopyWith<$Res> {
-  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
-      _$AuthStateCopyWithImpl<$Res, AuthState>;
-  @useResult
-  $Res call({AuthStatus status, String? errorMessage, User? currentUser});
+abstract mixin class $AuthStateCopyWith<$Res>  {
+  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
+@useResult
+$Res call({
+ AuthStatus status, String? errorMessage, User? currentUser
+});
 
-  $UserCopyWith<$Res>? get currentUser;
+
+$UserCopyWith<$Res>? get currentUser;
+
 }
-
 /// @nodoc
-class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
+class _$AuthStateCopyWithImpl<$Res>
     implements $AuthStateCopyWith<$Res> {
-  _$AuthStateCopyWithImpl(this._value, this._then);
+  _$AuthStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AuthState _self;
+  final $Res Function(AuthState) _then;
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? errorMessage = freezed,
-    Object? currentUser = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            status:
-                null == status
-                    ? _value.status
-                    : status // ignore: cast_nullable_to_non_nullable
-                        as AuthStatus,
-            errorMessage:
-                freezed == errorMessage
-                    ? _value.errorMessage
-                    : errorMessage // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            currentUser:
-                freezed == currentUser
-                    ? _value.currentUser
-                    : currentUser // ignore: cast_nullable_to_non_nullable
-                        as User?,
-          )
-          as $Val,
-    );
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? errorMessage = freezed,Object? currentUser = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as AuthStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,currentUser: freezed == currentUser ? _self.currentUser : currentUser // ignore: cast_nullable_to_non_nullable
+as User?,
+  ));
+}
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get currentUser {
+    if (_self.currentUser == null) {
+    return null;
   }
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res>? get currentUser {
-    if (_value.currentUser == null) {
-      return null;
-    }
-
-    return $UserCopyWith<$Res>(_value.currentUser!, (value) {
-      return _then(_value.copyWith(currentUser: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$AuthStateImplCopyWith<$Res>
-    implements $AuthStateCopyWith<$Res> {
-  factory _$$AuthStateImplCopyWith(
-    _$AuthStateImpl value,
-    $Res Function(_$AuthStateImpl) then,
-  ) = __$$AuthStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({AuthStatus status, String? errorMessage, User? currentUser});
-
-  @override
-  $UserCopyWith<$Res>? get currentUser;
-}
-
-/// @nodoc
-class __$$AuthStateImplCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$AuthStateImpl>
-    implements _$$AuthStateImplCopyWith<$Res> {
-  __$$AuthStateImplCopyWithImpl(
-    _$AuthStateImpl _value,
-    $Res Function(_$AuthStateImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? errorMessage = freezed,
-    Object? currentUser = freezed,
-  }) {
-    return _then(
-      _$AuthStateImpl(
-        status:
-            null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                    as AuthStatus,
-        errorMessage:
-            freezed == errorMessage
-                ? _value.errorMessage
-                : errorMessage // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        currentUser:
-            freezed == currentUser
-                ? _value.currentUser
-                : currentUser // ignore: cast_nullable_to_non_nullable
-                    as User?,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$AuthStateImpl implements _AuthState {
-  const _$AuthStateImpl({
-    this.status = AuthStatus.initial,
-    this.errorMessage,
-    this.currentUser,
+  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
+    return _then(_self.copyWith(currentUser: value));
   });
-
-  @override
-  @JsonKey()
-  final AuthStatus status;
-  @override
-  final String? errorMessage;
-  @override
-  final User? currentUser;
-
-  @override
-  String toString() {
-    return 'AuthState(status: $status, errorMessage: $errorMessage, currentUser: $currentUser)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage) &&
-            (identical(other.currentUser, currentUser) ||
-                other.currentUser == currentUser));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, errorMessage, currentUser);
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
-      __$$AuthStateImplCopyWithImpl<_$AuthStateImpl>(this, _$identity);
+}
 }
 
-abstract class _AuthState implements AuthState {
-  const factory _AuthState({
-    final AuthStatus status,
-    final String? errorMessage,
-    final User? currentUser,
-  }) = _$AuthStateImpl;
 
-  @override
-  AuthStatus get status;
-  @override
-  String? get errorMessage;
-  @override
-  User? get currentUser;
+/// @nodoc
 
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+
+class _AuthState implements AuthState {
+  const _AuthState({this.status = AuthStatus.initial, this.errorMessage, this.currentUser});
+  
+
+@override@JsonKey() final  AuthStatus status;
+@override final  String? errorMessage;
+@override final  User? currentUser;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.currentUser, currentUser) || other.currentUser == currentUser));
 }
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,errorMessage,currentUser);
+
+@override
+String toString() {
+  return 'AuthState(status: $status, errorMessage: $errorMessage, currentUser: $currentUser)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
+@override @useResult
+$Res call({
+ AuthStatus status, String? errorMessage, User? currentUser
+});
+
+
+@override $UserCopyWith<$Res>? get currentUser;
+
+}
+/// @nodoc
+class __$AuthStateCopyWithImpl<$Res>
+    implements _$AuthStateCopyWith<$Res> {
+  __$AuthStateCopyWithImpl(this._self, this._then);
+
+  final _AuthState _self;
+  final $Res Function(_AuthState) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? errorMessage = freezed,Object? currentUser = freezed,}) {
+  return _then(_AuthState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as AuthStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,currentUser: freezed == currentUser ? _self.currentUser : currentUser // ignore: cast_nullable_to_non_nullable
+as User?,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get currentUser {
+    if (_self.currentUser == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
+    return _then(_self.copyWith(currentUser: value));
+  });
+}
+}
+
+// dart format on

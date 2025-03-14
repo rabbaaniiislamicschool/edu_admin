@@ -7,7 +7,7 @@ part 'auth_state.freezed.dart';
 enum AuthStatus { initial, loading, authenticated, unauthenticated, failure }
 
 @freezed
-class AuthState with _$AuthState {
+abstract class AuthState with _$AuthState {
   const factory AuthState({
     @Default(AuthStatus.initial) AuthStatus status,
     String? errorMessage,

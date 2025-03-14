@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class CustomDateUtils {
   static const List<String> _monthNames = [
     'Januari',
@@ -11,7 +13,7 @@ class CustomDateUtils {
     'September',
     'Oktober',
     'November',
-    'Desember'
+    'Desember',
   ];
 
   /// Format DateTime to a string with dynamic options
@@ -57,9 +59,14 @@ class CustomDateUtils {
     bool showMonthOnly = false,
     bool includeDay = true,
     bool includeYear = true,
+    bool isTimeZone = true,
   }) {
-    if(dateString == null) return null;
-
+    if (dateString == null) return null;
+    if(isTimeZone) {
+      String rawDate = dateString.split('+')[0];
+      final dateTime = DateTime.parse(rawDate);
+      return DateFormat('dd MMMM yyyy').format(dateTime);
+    }
     DateTime date = parseDateFromString(dateString);
     return formatDate(
       date,
@@ -102,7 +109,7 @@ class CustomDateUtils {
     bool includeDay = true,
     bool includeYear = true,
   }) {
-    if(isoDateString  == null) return null;
+    if (isoDateString == null) return null;
     DateTime date = parseIsoDate(isoDateString);
     return formatDate(
       date,

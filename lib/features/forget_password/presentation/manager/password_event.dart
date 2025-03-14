@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'password_event.freezed.dart';
 
 @freezed
-class PasswordEvent with _$PasswordEvent {
+abstract class PasswordEvent with _$PasswordEvent {
   const factory PasswordEvent.forget({
     required String studentNumberId,
     required String dob,

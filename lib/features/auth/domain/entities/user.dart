@@ -5,7 +5,7 @@ import '../../data/remote/models/user_model.dart';
 part 'user.freezed.dart';
 
 @freezed
-class User with _$User {
+abstract class User with _$User {
   const factory User({
     required String userId,
     required String foundationId,

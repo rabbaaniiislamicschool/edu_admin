@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:edu_admin/core/routes/nested_routes.dart';
 import 'package:edu_admin/core/utils/ui_extensions.dart';
 import 'package:edu_admin/features/forget_password/presentation/manager/password_bloc.dart';
 import 'package:edu_admin/features/forget_password/presentation/manager/password_event.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../manager/password_state.dart';
 
 class ForgetPasswordScreen extends HookWidget {

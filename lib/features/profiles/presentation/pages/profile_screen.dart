@@ -6,6 +6,6 @@ class ProfileScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Siswa')));
+    return Scaffold(appBar: AppBar(title: Text('Profile')));
   }
 }

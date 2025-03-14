@@ -21,10 +21,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       () async {
         await hive.put<UserLoginData?>(
           userBox,
-          userLoginData.studentNumberId,
+          userLoginData.phoneNumber,
           userLoginData,
         );
-        await setCurrentUser(userLoginData.studentNumberId);
+        await setCurrentUser(userLoginData.phoneNumber);
         return Right(null);
       },
     );
@@ -52,7 +52,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
             );
           },
           (data) async {
-            await deleteUserLogin(data.studentNumberId);
+            await deleteUserLogin(data.phoneNumber);
             return Right(null);
           },
         );
@@ -61,13 +61,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> deleteUserLogin(String studentId) async {
+  Future<Either<Failure, void>> deleteUserLogin(String phoneNumber) async {
     return safeLocalOperation(
       () async {
-        await hive.delete<UserLoginData?>(userBox, studentId);
+        await hive.delete<UserLoginData?>(userBox, phoneNumber);
         final currentUserId =
             await hive.get<String?>(userIdBox, currentUserKey);
-        if (currentUserId != studentId) {
+        if (currentUserId != phoneNumber) {
           return Left(
             Failure.local('Gagal menghapus user, data user tidak ditemukan'),
           );
@@ -113,10 +113,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, UserLoginData>> getUserLogin(String studentId) async {
+  Future<Either<Failure, UserLoginData>> getUserLogin(String phoneNumber) async {
     return safeLocalOperation(
       () async {
-        final result = await hive.get<UserLoginData?>(userBox, studentId);
+        final result = await hive.get<UserLoginData?>(userBox, phoneNumber);
         if (result == null) {
           return Either.left(Failure.local('Data user tidak ada'));
         }
@@ -126,10 +126,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> setCurrentUser(String userId) async {
+  Future<Either<Failure, void>> setCurrentUser(String phoneNumber) async {
     return safeLocalOperation(
       () async {
-        await hive.put<String?>(userIdBox, currentUserKey, userId);
+        await hive.put<String?>(userIdBox, currentUserKey, phoneNumber);
         return right(null);
       },
     );

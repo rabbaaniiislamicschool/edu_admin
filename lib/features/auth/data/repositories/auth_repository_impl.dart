@@ -19,16 +19,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, User>> login(
-    String studentNumberId,
+    String phoneNumber,
     String password,
   ) async {
-    final email = '$studentNumberId@$domain';
-    final user = await _remoteDataSource.login(email, password);
+    final user = await _remoteDataSource.login(phoneNumber, password);
     return user.fold(
       (failure) => Left(failure),
       (data) async {
         await _localDataSource.saveUserLogin(
-          data.toLocal(studentNumberId, password),
+          data.toLocal(phoneNumber, password),
         );
         return Right(data.toEntity());
       },
