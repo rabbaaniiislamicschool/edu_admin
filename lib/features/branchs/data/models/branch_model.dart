@@ -22,8 +22,10 @@ abstract class BranchModel with _$BranchModel {
     @JsonKey(name: 'created_at', includeToJson: false) String? createdAt,
     @JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,
     @JsonKey(name: 'image_url', includeIfNull: false) String? imageUrl,
-    @JsonKey(includeToJson: false) FoundationModel? foundation,
-    @JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage,
+    @JsonKey(name: 'foundations', includeToJson: false)
+    FoundationModel? foundation,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    UploadStorageModel? uploadStorage,
   }) = _BranchModel;
 
   factory BranchModel.fromJson(Map<String, dynamic> json) =>
@@ -44,5 +46,6 @@ extension BranchModelX on BranchModel {
     updatedAt: updatedAt,
     imageUrl: imageUrl,
     foundation: foundation?.toEntity(),
+    uploadStorage: uploadStorage?.toEntity(),
   );
 }

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DivisionModel implements DiagnosticableTreeMixin {
 
-@JsonKey(name: 'division_id', includeToJson: false) int get divisionId;@JsonKey(name: 'division_name') String get divisionName;@JsonKey(name: 'created_at', includeToJson: false) String get createdAt;@JsonKey(name: 'updated_at') String get updatedAt;
+@JsonKey(name: 'division_id', includeToJson: false) int? get divisionId;@JsonKey(name: 'division_name') String get divisionName;@JsonKey(name: 'created_at', includeToJson: false) String? get createdAt;@JsonKey(name: 'updated_at', includeIfNull: false) String? get updatedAt;
 /// Create a copy of DivisionModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55,7 +55,7 @@ abstract mixin class $DivisionModelCopyWith<$Res>  {
   factory $DivisionModelCopyWith(DivisionModel value, $Res Function(DivisionModel) _then) = _$DivisionModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'division_id', includeToJson: false) int divisionId,@JsonKey(name: 'division_name') String divisionName,@JsonKey(name: 'created_at', includeToJson: false) String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+@JsonKey(name: 'division_id', includeToJson: false) int? divisionId,@JsonKey(name: 'division_name') String divisionName,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt
 });
 
 
@@ -72,13 +72,13 @@ class _$DivisionModelCopyWithImpl<$Res>
 
 /// Create a copy of DivisionModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? divisionId = null,Object? divisionName = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? divisionId = freezed,Object? divisionName = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
-divisionId: null == divisionId ? _self.divisionId : divisionId // ignore: cast_nullable_to_non_nullable
-as int,divisionName: null == divisionName ? _self.divisionName : divisionName // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as String,
+divisionId: freezed == divisionId ? _self.divisionId : divisionId // ignore: cast_nullable_to_non_nullable
+as int?,divisionName: null == divisionName ? _self.divisionName : divisionName // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -89,13 +89,13 @@ as String,
 @JsonSerializable()
 
 class _DivisionModel with DiagnosticableTreeMixin implements DivisionModel {
-  const _DivisionModel({@JsonKey(name: 'division_id', includeToJson: false) required this.divisionId, @JsonKey(name: 'division_name') required this.divisionName, @JsonKey(name: 'created_at', includeToJson: false) required this.createdAt, @JsonKey(name: 'updated_at') required this.updatedAt});
+  const _DivisionModel({@JsonKey(name: 'division_id', includeToJson: false) this.divisionId, @JsonKey(name: 'division_name') required this.divisionName, @JsonKey(name: 'created_at', includeToJson: false) this.createdAt, @JsonKey(name: 'updated_at', includeIfNull: false) this.updatedAt});
   factory _DivisionModel.fromJson(Map<String, dynamic> json) => _$DivisionModelFromJson(json);
 
-@override@JsonKey(name: 'division_id', includeToJson: false) final  int divisionId;
+@override@JsonKey(name: 'division_id', includeToJson: false) final  int? divisionId;
 @override@JsonKey(name: 'division_name') final  String divisionName;
-@override@JsonKey(name: 'created_at', includeToJson: false) final  String createdAt;
-@override@JsonKey(name: 'updated_at') final  String updatedAt;
+@override@JsonKey(name: 'created_at', includeToJson: false) final  String? createdAt;
+@override@JsonKey(name: 'updated_at', includeIfNull: false) final  String? updatedAt;
 
 /// Create a copy of DivisionModel
 /// with the given fields replaced by the non-null parameter values.
@@ -136,7 +136,7 @@ abstract mixin class _$DivisionModelCopyWith<$Res> implements $DivisionModelCopy
   factory _$DivisionModelCopyWith(_DivisionModel value, $Res Function(_DivisionModel) _then) = __$DivisionModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'division_id', includeToJson: false) int divisionId,@JsonKey(name: 'division_name') String divisionName,@JsonKey(name: 'created_at', includeToJson: false) String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+@JsonKey(name: 'division_id', includeToJson: false) int? divisionId,@JsonKey(name: 'division_name') String divisionName,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt
 });
 
 
@@ -153,13 +153,13 @@ class __$DivisionModelCopyWithImpl<$Res>
 
 /// Create a copy of DivisionModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? divisionId = null,Object? divisionName = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? divisionId = freezed,Object? divisionName = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_DivisionModel(
-divisionId: null == divisionId ? _self.divisionId : divisionId // ignore: cast_nullable_to_non_nullable
-as int,divisionName: null == divisionName ? _self.divisionName : divisionName // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as String,
+divisionId: freezed == divisionId ? _self.divisionId : divisionId // ignore: cast_nullable_to_non_nullable
+as int?,divisionName: null == divisionName ? _self.divisionName : divisionName // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

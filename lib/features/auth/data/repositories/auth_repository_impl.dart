@@ -23,15 +23,10 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     final user = await _remoteDataSource.login(phoneNumber, password);
-    return user.fold(
-      (failure) => Left(failure),
-      (data) async {
-        await _localDataSource.saveUserLogin(
-          data.toLocal(phoneNumber, password),
-        );
-        return Right(data.toEntity());
-      },
-    );
+    return user.fold((failure) => Left(failure), (data) async {
+      await _localDataSource.saveUserLogin(data.toLocal());
+      return Right(data.toEntity());
+    });
   }
 
   @override
@@ -43,31 +38,21 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> logout() async {
     final logoutResult = await _remoteDataSource.logout();
-    return logoutResult.fold(
-      (failure) => Left(failure),
-      (_) async {
-        await _localDataSource.deleteCurrentUser();
-        return Right(null);
-      },
-    );
+    return logoutResult.fold((failure) => Left(failure), (_) async {
+      await _localDataSource.deleteCurrentUser();
+      return Right(null);
+    });
   }
 
   @override
   Future<Either<Failure, bool>> isAuthenticated() async {
     final currentUser = await getCurrentUser();
-    return currentUser.fold(
-      (failure) => Left(failure),
-      (user) => Right(true),
-    );
+    return currentUser.fold((failure) => Left(failure), (user) => Right(true));
   }
 
   @override
   Future<Either<Failure, List<User>>> getAllUsers() async {
     final users = await _localDataSource.getAllUsers();
-    return users.map((data) => data
-        .map(
-          (model) => model.toEntity(),
-        )
-        .toList());
+    return users.map((data) => data.map((model) => model.toEntity()).toList());
   }
 }

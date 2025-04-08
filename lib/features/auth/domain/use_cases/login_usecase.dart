@@ -13,11 +13,7 @@ class LoginUseCase implements UseCase<User, LoginParams> {
 
   @override
   Future<Either<Failure, User>> execute(LoginParams params) {
-    var phoneNumber = params.phoneNumber;
-    if (phoneNumber.startsWith('08')) {
-      phoneNumber = '62${params.phoneNumber.substring(1)}';
-    }
-    return _authRepository.login(phoneNumber, params.password);
+    return _authRepository.login(params.phoneNumber, params.password);
   }
 }
 
@@ -26,5 +22,4 @@ class LoginParams {
   final String password;
 
   LoginParams({required this.phoneNumber, required this.password});
-
 }

@@ -1,3 +1,5 @@
+import 'package:edu_admin/core/utils/phone_number_utils.dart';
+import 'package:edu_admin/core/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:edu_admin/core/utils/ui_extensions.dart';
 import 'package:edu_admin/generated/assets.gen.dart';
@@ -11,7 +13,6 @@ import '../../../../di/di.dart';
 import '../manager/auth_bloc.dart';
 import '../manager/auth_event.dart';
 import '../manager/auth_state.dart';
-import '../manager/login_event.dart';
 
 class LoginScreen extends HookWidget {
   const LoginScreen({super.key});
@@ -32,7 +33,7 @@ class LoginScreen extends HookWidget {
             context.showMessage(state.errorMessage!);
             return;
           }
-          // HomeRoute().pushReplacement(context);
+          HomeRoute().pushReplacement(context);
         },
         builder: (context, state) {
           return Center(
@@ -70,7 +71,7 @@ class LoginScreen extends HookWidget {
                             const SizedBox(height: 8),
                             const Center(
                               child: Text(
-                                "Assalamu'alaikum selamat datang di aplikasi RIS, silahkan masuk untuk bisa menggunakan aplikasi.",
+                                "Assalamu'alaikum, silahkan masuk untuk dapat menggunakan aplikasi.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14,
@@ -83,12 +84,12 @@ class LoginScreen extends HookWidget {
                               id: 'phoneNumber',
                               label: Text(
                                 'Nomor Telepon',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               validator: (v) {
-                                if (v.isEmpty) return 'Nomor Telepon tidak boleh kosong';
+                                if (v.isEmpty) {
+                                  return 'Nomor Telepon tidak boleh kosong';
+                                }
                                 return null;
                               },
                               placeholder: Text('08xxxxxx'),
@@ -96,7 +97,7 @@ class LoginScreen extends HookWidget {
                               controller: phoneNumber,
                               autofillHints: [AutofillHints.username],
                               inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
+                                FilteringTextInputFormatter.digitsOnly,
                               ],
                               prefix: Padding(
                                 padding: const EdgeInsets.all(4.0),
@@ -117,10 +118,7 @@ class LoginScreen extends HookWidget {
                                 onPressed: () {
                                   phoneNumber.clear();
                                 },
-                                icon: Icon(
-                                  Icons.clear,
-                                  size: 16,
-                                ),
+                                icon: Icon(Icons.clear, size: 16),
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -128,9 +126,7 @@ class LoginScreen extends HookWidget {
                               controller: password,
                               label: Text(
                                 'Password',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               validator: (v) {
                                 if (v.isEmpty) {
@@ -164,7 +160,8 @@ class LoginScreen extends HookWidget {
                                   size: 16,
                                 ),
                                 onPressed: () {
-                                  visiblePassword.value = !visiblePassword.value;
+                                  visiblePassword.value =
+                                      !visiblePassword.value;
                                 },
                               ),
                             ),
@@ -186,22 +183,25 @@ class LoginScreen extends HookWidget {
                                 if (!formKey.currentState!.saveAndValidate()) {
                                   return;
                                 }
-                                context
-                                    .read<AuthBloc>()
-                                    .add(AuthEvent.loginRequested(
-                                      studentNumberId: phoneNumber.text,
-                                      password: password.text,
-                                    ));
+                                context.read<AuthBloc>().add(
+                                  AuthEvent.loginRequested(
+                                    phoneNumber:
+                                        phoneNumber.text
+                                            .toInternationalFormat(),
+                                    password: password.text,
+                                  ),
+                                );
                               },
-                              leading: state.status == AuthStatus.loading
-                                  ? SizedBox.square(
-                                      dimension: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: context.onPrimaryColor,
-                                      ),
-                                    )
-                                  : null,
+                              leading:
+                                  state.status == AuthStatus.loading
+                                      ? SizedBox.square(
+                                        dimension: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: context.onPrimaryColor,
+                                        ),
+                                      )
+                                      : null,
                               child: const Text('Masuk'),
                             ),
                             const SizedBox(height: 24),

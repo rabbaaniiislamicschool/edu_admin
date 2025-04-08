@@ -1,6 +1,8 @@
+import 'package:edu_admin/core/utils/string_utils.dart';
 import 'package:edu_admin/core/utils/ui_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:forui/forui.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import '../../../../core/utils/custom_date_utils.dart';
@@ -35,24 +37,29 @@ class DetailBranchDialog extends HookWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  '${branch.imageUrl}',
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
+                child: FAvatar(
+                  image: NetworkImage('${branch.imageUrl}'),
+                  fallback: Text(
+                    StringUtils.getInitials(branch.branchName),
+                    style: context.shadTextTheme.large,
+                  ),
+                  size: 72,
                 ),
               ),
             ),
           ),
           SizedBox(height: 16),
-          _buildDetailRow('ID', branch.foundationId ?? ''),
-          _buildDetailRow(
-            'Nama Cabang',
-            branch.branchName,
-            isBold: true,
-          ),
+          _buildDetailRow('ID', branch.foundationId),
+          _buildDetailRow('Nama Cabang', branch.branchName, isBold: true),
+          _buildDetailRow('Yayasan', branch.foundation?.foundationName ?? ''),
           _buildDetailRow('Alamat', branch.address ?? ''),
           _buildDetailRow('Nomer Telepon', branch.phoneNumber ?? ''),
+          _buildDetailRow(
+            'Koordinat Lokasi',
+            branch.latitude != null && branch.longitude != null
+                ? '${branch.latitude}, ${branch.longitude}'
+                : '',
+          ),
           _buildDetailRow(
             'Tanggal Dibuat',
             CustomDateUtils.formatStringDate('${branch.createdAt}') ?? '',
@@ -86,7 +93,7 @@ class DetailBranchDialog extends HookWidget {
                     color: context.onBackgroundColor,
                   ),
                 );
-              }
+              },
             ),
           ),
         ],

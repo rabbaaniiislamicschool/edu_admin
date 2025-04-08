@@ -16,6 +16,17 @@ class CustomDateUtils {
     'Desember',
   ];
 
+  static String? format(String? date) {
+    if (date == null) return null;
+    try {
+      final dateTime = DateTime.parse(date);
+      final formatDate = DateFormat('dd-MM-yyyy').format(dateTime);
+      return formatDate;
+    } catch (error) {
+      return null;
+    }
+  }
+
   /// Format DateTime to a string with dynamic options
   static String formatDate(
     DateTime date, {
@@ -62,7 +73,7 @@ class CustomDateUtils {
     bool isTimeZone = true,
   }) {
     if (dateString == null) return null;
-    if(isTimeZone) {
+    if (isTimeZone) {
       String rawDate = dateString.split('+')[0];
       final dateTime = DateTime.parse(rawDate);
       return DateFormat('dd MMMM yyyy').format(dateTime);

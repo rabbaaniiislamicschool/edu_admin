@@ -1,3 +1,6 @@
+import 'package:edu_admin/core/model/upload_storage_model.dart';
+import 'package:edu_admin/features/schools/data/models/school_model.dart';
+import 'package:edu_admin/features/schools/domain/entities/school.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../domain/entities/user.dart';
@@ -8,18 +11,22 @@ part 'user_model.g.dart';
 
 @freezed
 abstract class UserModel with _$UserModel {
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+  @JsonSerializable(fieldRename: FieldRename.snake)
   factory UserModel({
-    required String userId,
-    required String foundationId,
+    @JsonKey(name: 'user_id', includeIfNull: false) String? userId,
+    required int schoolId,
     required String fullName,
-    required String email,
     required String phoneNumber,
     required String gender,
     required String dob,
+    required String birthPlace,
+    String? email,
     String? address,
-    required String createdAt,
-    String? birthPlace,
+    @JsonKey(includeToJson: false) String? createdAt,
+    String? imageUrl,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    UploadStorageModel? uploadStorage,
+    @JsonKey(name: 'schools', includeToJson: false) SchoolModel? school,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -30,7 +37,7 @@ extension UserModelX on UserModel {
   User toEntity() {
     return User(
       userId: userId,
-      foundationId: foundationId,
+      schoolId: schoolId,
       fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
@@ -39,16 +46,18 @@ extension UserModelX on UserModel {
       createdAt: createdAt,
       address: address,
       birthPlace: birthPlace,
+      imageUrl: imageUrl,
+      uploadStrorage: uploadStorage?.toEntity(),
+      school: school?.toEntity(),
     );
   }
 
-  UserLoginData toLocal(String studentNumberId, String password) {
+  UserLoginData toLocal() {
     return UserLoginData(
-      studentNumberId: studentNumberId,
-      password: password,
+      imageUrl: imageUrl,
       userId: userId,
       phoneNumber: phoneNumber,
-      foundationId: foundationId,
+      schoolId: schoolId,
       fullName: fullName,
       email: email,
       gender: gender,
@@ -59,5 +68,3 @@ extension UserModelX on UserModel {
     );
   }
 }
-
-

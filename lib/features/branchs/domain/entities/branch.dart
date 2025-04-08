@@ -20,12 +20,14 @@ abstract class Branch with _$Branch {
     String? updatedAt,
     String? imageUrl,
     Foundation? foundation,
-    UploadStorage? uploadStorage
+    UploadStorage? uploadStorage,
   }) = _Branch;
 
-
   /// Parsing dari List Excel ke `Foundation` + VALIDASI
-  factory Branch.fromExcelRow(List<dynamic> row, Map<String, String?> foundationMapping) {
+  factory Branch.fromExcelRow(
+    List<dynamic> row,
+    Map<String, String?> foundationMapping,
+  ) {
     // **Validasi Format Data**
     if (row.length < 6) {
       throw FormatException("Data tidak lengkap, harap periksa file Excel.");
@@ -92,7 +94,6 @@ abstract class Branch with _$Branch {
       // websiteUrl: websiteUrl,
     );
   }
-
 }
 
 extension BranchX on Branch {
@@ -108,6 +109,7 @@ extension BranchX on Branch {
     createdAt: createdAt,
     updatedAt: updatedAt,
     imageUrl: imageUrl,
+    uploadStorage: uploadStorage?.toModel(),
     foundation: foundation?.toModel(),
   );
 }

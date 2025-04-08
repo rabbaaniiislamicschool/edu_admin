@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EmployeeState implements DiagnosticableTreeMixin {
 
- EmployeeStatus get status; String? get errorMessage; String? get successMessage; List<Employee>? get employees; List<Employee>? get importedEmployees; Employee? get employee;
+ EmployeeStatus get status; String? get errorMessage; String? get successMessage; List<Employee>? get employees; Employee? get employee;
 /// Create a copy of EmployeeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,21 +27,21 @@ $EmployeeStateCopyWith<EmployeeState> get copyWith => _$EmployeeStateCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'EmployeeState'))
-    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('successMessage', successMessage))..add(DiagnosticsProperty('employees', employees))..add(DiagnosticsProperty('importedEmployees', importedEmployees))..add(DiagnosticsProperty('employee', employee));
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('successMessage', successMessage))..add(DiagnosticsProperty('employees', employees))..add(DiagnosticsProperty('employee', employee));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmployeeState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.successMessage, successMessage) || other.successMessage == successMessage)&&const DeepCollectionEquality().equals(other.employees, employees)&&const DeepCollectionEquality().equals(other.importedEmployees, importedEmployees)&&(identical(other.employee, employee) || other.employee == employee));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmployeeState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.successMessage, successMessage) || other.successMessage == successMessage)&&const DeepCollectionEquality().equals(other.employees, employees)&&(identical(other.employee, employee) || other.employee == employee));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage,successMessage,const DeepCollectionEquality().hash(employees),const DeepCollectionEquality().hash(importedEmployees),employee);
+int get hashCode => Object.hash(runtimeType,status,errorMessage,successMessage,const DeepCollectionEquality().hash(employees),employee);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'EmployeeState(status: $status, errorMessage: $errorMessage, successMessage: $successMessage, employees: $employees, importedEmployees: $importedEmployees, employee: $employee)';
+  return 'EmployeeState(status: $status, errorMessage: $errorMessage, successMessage: $successMessage, employees: $employees, employee: $employee)';
 }
 
 
@@ -52,7 +52,7 @@ abstract mixin class $EmployeeStateCopyWith<$Res>  {
   factory $EmployeeStateCopyWith(EmployeeState value, $Res Function(EmployeeState) _then) = _$EmployeeStateCopyWithImpl;
 @useResult
 $Res call({
- EmployeeStatus status, String? errorMessage, String? successMessage, List<Employee>? employees, List<Employee>? importedEmployees, Employee? employee
+ EmployeeStatus status, String? errorMessage, String? successMessage, List<Employee>? employees, Employee? employee
 });
 
 
@@ -69,13 +69,12 @@ class _$EmployeeStateCopyWithImpl<$Res>
 
 /// Create a copy of EmployeeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? errorMessage = freezed,Object? successMessage = freezed,Object? employees = freezed,Object? importedEmployees = freezed,Object? employee = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? errorMessage = freezed,Object? successMessage = freezed,Object? employees = freezed,Object? employee = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as EmployeeStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,successMessage: freezed == successMessage ? _self.successMessage : successMessage // ignore: cast_nullable_to_non_nullable
 as String?,employees: freezed == employees ? _self.employees : employees // ignore: cast_nullable_to_non_nullable
-as List<Employee>?,importedEmployees: freezed == importedEmployees ? _self.importedEmployees : importedEmployees // ignore: cast_nullable_to_non_nullable
 as List<Employee>?,employee: freezed == employee ? _self.employee : employee // ignore: cast_nullable_to_non_nullable
 as Employee?,
   ));
@@ -100,7 +99,7 @@ $EmployeeCopyWith<$Res>? get employee {
 
 
 class _EmployeeState with DiagnosticableTreeMixin implements EmployeeState {
-  const _EmployeeState({this.status = EmployeeStatus.initial, this.errorMessage, this.successMessage, final  List<Employee>? employees, final  List<Employee>? importedEmployees, this.employee}): _employees = employees,_importedEmployees = importedEmployees;
+  const _EmployeeState({this.status = EmployeeStatus.initial, this.errorMessage, this.successMessage, final  List<Employee>? employees, this.employee}): _employees = employees;
   
 
 @override@JsonKey() final  EmployeeStatus status;
@@ -111,15 +110,6 @@ class _EmployeeState with DiagnosticableTreeMixin implements EmployeeState {
   final value = _employees;
   if (value == null) return null;
   if (_employees is EqualUnmodifiableListView) return _employees;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
-}
-
- final  List<Employee>? _importedEmployees;
-@override List<Employee>? get importedEmployees {
-  final value = _importedEmployees;
-  if (value == null) return null;
-  if (_importedEmployees is EqualUnmodifiableListView) return _importedEmployees;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -137,21 +127,21 @@ _$EmployeeStateCopyWith<_EmployeeState> get copyWith => __$EmployeeStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'EmployeeState'))
-    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('successMessage', successMessage))..add(DiagnosticsProperty('employees', employees))..add(DiagnosticsProperty('importedEmployees', importedEmployees))..add(DiagnosticsProperty('employee', employee));
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('successMessage', successMessage))..add(DiagnosticsProperty('employees', employees))..add(DiagnosticsProperty('employee', employee));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmployeeState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.successMessage, successMessage) || other.successMessage == successMessage)&&const DeepCollectionEquality().equals(other._employees, _employees)&&const DeepCollectionEquality().equals(other._importedEmployees, _importedEmployees)&&(identical(other.employee, employee) || other.employee == employee));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmployeeState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.successMessage, successMessage) || other.successMessage == successMessage)&&const DeepCollectionEquality().equals(other._employees, _employees)&&(identical(other.employee, employee) || other.employee == employee));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage,successMessage,const DeepCollectionEquality().hash(_employees),const DeepCollectionEquality().hash(_importedEmployees),employee);
+int get hashCode => Object.hash(runtimeType,status,errorMessage,successMessage,const DeepCollectionEquality().hash(_employees),employee);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'EmployeeState(status: $status, errorMessage: $errorMessage, successMessage: $successMessage, employees: $employees, importedEmployees: $importedEmployees, employee: $employee)';
+  return 'EmployeeState(status: $status, errorMessage: $errorMessage, successMessage: $successMessage, employees: $employees, employee: $employee)';
 }
 
 
@@ -162,7 +152,7 @@ abstract mixin class _$EmployeeStateCopyWith<$Res> implements $EmployeeStateCopy
   factory _$EmployeeStateCopyWith(_EmployeeState value, $Res Function(_EmployeeState) _then) = __$EmployeeStateCopyWithImpl;
 @override @useResult
 $Res call({
- EmployeeStatus status, String? errorMessage, String? successMessage, List<Employee>? employees, List<Employee>? importedEmployees, Employee? employee
+ EmployeeStatus status, String? errorMessage, String? successMessage, List<Employee>? employees, Employee? employee
 });
 
 
@@ -179,13 +169,12 @@ class __$EmployeeStateCopyWithImpl<$Res>
 
 /// Create a copy of EmployeeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? errorMessage = freezed,Object? successMessage = freezed,Object? employees = freezed,Object? importedEmployees = freezed,Object? employee = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? errorMessage = freezed,Object? successMessage = freezed,Object? employees = freezed,Object? employee = freezed,}) {
   return _then(_EmployeeState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as EmployeeStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,successMessage: freezed == successMessage ? _self.successMessage : successMessage // ignore: cast_nullable_to_non_nullable
 as String?,employees: freezed == employees ? _self._employees : employees // ignore: cast_nullable_to_non_nullable
-as List<Employee>?,importedEmployees: freezed == importedEmployees ? _self._importedEmployees : importedEmployees // ignore: cast_nullable_to_non_nullable
 as List<Employee>?,employee: freezed == employee ? _self.employee : employee // ignore: cast_nullable_to_non_nullable
 as Employee?,
   ));

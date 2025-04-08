@@ -16,19 +16,22 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 
-
 final getIt = GetIt.asNewInstance();
 
 @injectableInit
-Future<void> configureDependencies(String environment) async => getIt.init(environment: environment);
+Future<void> configureDependencies(String environment) async =>
+    getIt.init(environment: environment);
 
 @module
 abstract class AppModule {
-
   @lazySingleton
   @preResolve
   Future<SupabaseClient> provideSupabase(http.Client client) async {
-    await Supabase.initialize(url: Env.baseUrl, anonKey: Env.apiKey, httpClient: client);
+    await Supabase.initialize(
+      url: Env.baseUrl,
+      anonKey: Env.apiKey,
+      httpClient: client,
+    );
     return Supabase.instance.client;
   }
 
@@ -64,9 +67,8 @@ abstract class AppModule {
         final isAuthenticated = authResult.getOrElse((l) => false);
         final isLoggingIn = state.matchedLocation == '/login';
         final goingToForgetPassword = state.matchedLocation == '/lupa-password';
-        getIt<Logger>().d('isAuthenticated: $isAuthenticated');
         if (!isAuthenticated && !isLoggingIn) {
-          if(goingToForgetPassword){
+          if (goingToForgetPassword) {
             return '/lupa-password';
           }
           return '/login';

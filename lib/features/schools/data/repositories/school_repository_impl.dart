@@ -38,4 +38,10 @@ class SchoolRepositoryImpl implements SchoolRepository {
   Future<Either<Failure, void>> updateSchool(School school) {
     return _dataSource.updateSchool(school.toModel());
   }
+
+  @override
+  Future<Either<Failure, void>> createSchools(List<School> schools) {
+    final data = schools.map((entity) => entity.toModel()).toList();
+    return _dataSource.createSchools(data);
+  }
 }

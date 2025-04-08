@@ -2,8 +2,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/school.dart';
 part 'school_state.freezed.dart';
 
-enum SchoolStatus { initial, loading, success, failure }
-
+enum SchoolStatus {
+  initial,
+  loading,
+  success,
+  failure,
+  insertSuccess,
+  updateSuccess,
+  deleteSuccess,
+  importSuccess,
+}
 
 @freezed
 abstract class SchoolState with _$SchoolState {

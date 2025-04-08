@@ -65,7 +65,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SchoolEvent.fetchSchools()';
+  return 'SchoolEvent.fetchAllSchools()';
 }
 
 
@@ -213,6 +213,78 @@ $SchoolCopyWith<$Res> get school {
     return _then(_self.copyWith(school: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class CreateSchools implements SchoolEvent {
+  const CreateSchools(final  List<School> schools): _schools = schools;
+  
+
+ final  List<School> _schools;
+ List<School> get schools {
+  if (_schools is EqualUnmodifiableListView) return _schools;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_schools);
+}
+
+
+/// Create a copy of SchoolEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateSchoolsCopyWith<CreateSchools> get copyWith => _$CreateSchoolsCopyWithImpl<CreateSchools>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateSchools&&const DeepCollectionEquality().equals(other._schools, _schools));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_schools));
+
+@override
+String toString() {
+  return 'SchoolEvent.createSchools(schools: $schools)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateSchoolsCopyWith<$Res> implements $SchoolEventCopyWith<$Res> {
+  factory $CreateSchoolsCopyWith(CreateSchools value, $Res Function(CreateSchools) _then) = _$CreateSchoolsCopyWithImpl;
+@useResult
+$Res call({
+ List<School> schools
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateSchoolsCopyWithImpl<$Res>
+    implements $CreateSchoolsCopyWith<$Res> {
+  _$CreateSchoolsCopyWithImpl(this._self, this._then);
+
+  final CreateSchools _self;
+  final $Res Function(CreateSchools) _then;
+
+/// Create a copy of SchoolEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? schools = null,}) {
+  return _then(CreateSchools(
+null == schools ? _self._schools : schools // ignore: cast_nullable_to_non_nullable
+as List<School>,
+  ));
+}
+
+
 }
 
 /// @nodoc

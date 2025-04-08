@@ -1,24 +1,22 @@
+import 'package:edu_admin/features/auth/domain/entities/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../domain/entities/user.dart';
 
 part 'user_login_data.freezed.dart';
 
 @freezed
 abstract class UserLoginData with _$UserLoginData {
   const factory UserLoginData({
-    required String studentNumberId,
-    required String password,
-    required String userId,
-    required String foundationId,
+    String? userId,
+    required int schoolId,
     required String fullName,
-    required String email,
+    required String phoneNumber,
     required String gender,
     required String dob,
+    required String birthPlace,
+    String? email,
     String? address,
-    required String createdAt,
-    String? birthPlace,
-    required String phoneNumber
+    String? createdAt,
+    String? imageUrl,
   }) = _UserLoginData;
 }
 
@@ -26,7 +24,7 @@ extension UserLoginDataX on UserLoginData {
   User toEntity() {
     return User(
       userId: userId,
-      foundationId: foundationId,
+      schoolId: schoolId,
       fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
@@ -35,8 +33,7 @@ extension UserLoginDataX on UserLoginData {
       createdAt: createdAt,
       address: address,
       birthPlace: birthPlace,
-      savedPassword: password,
-      studentNumberId: studentNumberId,
+      imageUrl: imageUrl,
     );
   }
 }

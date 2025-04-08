@@ -12,14 +12,22 @@ _EmployeeModel _$EmployeeModelFromJson(Map<String, dynamic> json) =>
       employeeNumberId: json['employee_number_id'] as String,
       divisionId: (json['division_id'] as num?)?.toInt(),
       employeeName: json['employee_name'] as String,
-      educationLevel: json['education_level'] as String?,
       hiredDate: json['hired_date'] as String?,
       leaveDate: json['leave_date'] as String?,
-      employmentStatus: json['employment_status'] as String,
-      position: json['position'] as String?,
-      isTeaching: json['is_teaching'] as bool,
+      status: json['status'] as String?,
+      isTeaching: json['is_teaching'] as bool?,
       createdAt: json['created_at'] as String?,
-      updateAt: json['update_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      user:
+          json['users'] == null
+              ? null
+              : UserModel.fromJson(json['users'] as Map<String, dynamic>),
+      division:
+          json['divisions'] == null
+              ? null
+              : DivisionModel.fromJson(
+                json['divisions'] as Map<String, dynamic>,
+              ),
     );
 
 Map<String, dynamic> _$EmployeeModelToJson(_EmployeeModel instance) =>
@@ -27,11 +35,9 @@ Map<String, dynamic> _$EmployeeModelToJson(_EmployeeModel instance) =>
       'employee_number_id': instance.employeeNumberId,
       'division_id': instance.divisionId,
       'employee_name': instance.employeeName,
-      'education_level': instance.educationLevel,
       'hired_date': instance.hiredDate,
-      if (instance.leaveDate case final value?) 'leave_date': value,
-      'employment_status': instance.employmentStatus,
-      'position': instance.position,
+      'leave_date': instance.leaveDate,
+      if (instance.status case final value?) 'status': value,
       'is_teaching': instance.isTeaching,
-      if (instance.updateAt case final value?) 'update_at': value,
+      if (instance.updatedAt case final value?) 'updated_at': value,
     };

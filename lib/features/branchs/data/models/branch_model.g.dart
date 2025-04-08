@@ -19,10 +19,10 @@ _BranchModel _$BranchModelFromJson(Map<String, dynamic> json) => _BranchModel(
   updatedAt: json['updated_at'] as String?,
   imageUrl: json['image_url'] as String?,
   foundation:
-      json['foundation'] == null
+      json['foundations'] == null
           ? null
           : FoundationModel.fromJson(
-            json['foundation'] as Map<String, dynamic>,
+            json['foundations'] as Map<String, dynamic>,
           ),
 );
 

@@ -161,69 +161,151 @@ as String,
 /// @nodoc
 
 
-class CreateEmployee with DiagnosticableTreeMixin implements EmployeeEvent {
-  const CreateEmployee(this.foundation);
+class CreateUserEmployees with DiagnosticableTreeMixin implements EmployeeEvent {
+  const CreateUserEmployees(final  List<UserEmployee> userEmployees, this.defaultPassword): _userEmployees = userEmployees;
   
 
- final  Employee foundation;
+ final  List<UserEmployee> _userEmployees;
+ List<UserEmployee> get userEmployees {
+  if (_userEmployees is EqualUnmodifiableListView) return _userEmployees;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_userEmployees);
+}
+
+ final  String defaultPassword;
 
 /// Create a copy of EmployeeEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$CreateEmployeeCopyWith<CreateEmployee> get copyWith => _$CreateEmployeeCopyWithImpl<CreateEmployee>(this, _$identity);
+$CreateUserEmployeesCopyWith<CreateUserEmployees> get copyWith => _$CreateUserEmployeesCopyWithImpl<CreateUserEmployees>(this, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'EmployeeEvent.createEmployee'))
-    ..add(DiagnosticsProperty('foundation', foundation));
+    ..add(DiagnosticsProperty('type', 'EmployeeEvent.createUserEmployees'))
+    ..add(DiagnosticsProperty('userEmployees', userEmployees))..add(DiagnosticsProperty('defaultPassword', defaultPassword));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateEmployee&&(identical(other.foundation, foundation) || other.foundation == foundation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateUserEmployees&&const DeepCollectionEquality().equals(other._userEmployees, _userEmployees)&&(identical(other.defaultPassword, defaultPassword) || other.defaultPassword == defaultPassword));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,foundation);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userEmployees),defaultPassword);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'EmployeeEvent.createEmployee(foundation: $foundation)';
+  return 'EmployeeEvent.createUserEmployees(userEmployees: $userEmployees, defaultPassword: $defaultPassword)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $CreateEmployeeCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
-  factory $CreateEmployeeCopyWith(CreateEmployee value, $Res Function(CreateEmployee) _then) = _$CreateEmployeeCopyWithImpl;
+abstract mixin class $CreateUserEmployeesCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
+  factory $CreateUserEmployeesCopyWith(CreateUserEmployees value, $Res Function(CreateUserEmployees) _then) = _$CreateUserEmployeesCopyWithImpl;
 @useResult
 $Res call({
- Employee foundation
+ List<UserEmployee> userEmployees, String defaultPassword
 });
 
 
-$EmployeeCopyWith<$Res> get foundation;
+
 
 }
 /// @nodoc
-class _$CreateEmployeeCopyWithImpl<$Res>
-    implements $CreateEmployeeCopyWith<$Res> {
-  _$CreateEmployeeCopyWithImpl(this._self, this._then);
+class _$CreateUserEmployeesCopyWithImpl<$Res>
+    implements $CreateUserEmployeesCopyWith<$Res> {
+  _$CreateUserEmployeesCopyWithImpl(this._self, this._then);
 
-  final CreateEmployee _self;
-  final $Res Function(CreateEmployee) _then;
+  final CreateUserEmployees _self;
+  final $Res Function(CreateUserEmployees) _then;
 
 /// Create a copy of EmployeeEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? foundation = null,}) {
-  return _then(CreateEmployee(
-null == foundation ? _self.foundation : foundation // ignore: cast_nullable_to_non_nullable
-as Employee,
+@pragma('vm:prefer-inline') $Res call({Object? userEmployees = null,Object? defaultPassword = null,}) {
+  return _then(CreateUserEmployees(
+null == userEmployees ? _self._userEmployees : userEmployees // ignore: cast_nullable_to_non_nullable
+as List<UserEmployee>,null == defaultPassword ? _self.defaultPassword : defaultPassword // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class CreateUserEmployee with DiagnosticableTreeMixin implements EmployeeEvent {
+  const CreateUserEmployee(this.userEmployee, this.defaultPassword);
+  
+
+ final  UserEmployee userEmployee;
+ final  String defaultPassword;
+
+/// Create a copy of EmployeeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateUserEmployeeCopyWith<CreateUserEmployee> get copyWith => _$CreateUserEmployeeCopyWithImpl<CreateUserEmployee>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'EmployeeEvent.createUserEmployee'))
+    ..add(DiagnosticsProperty('userEmployee', userEmployee))..add(DiagnosticsProperty('defaultPassword', defaultPassword));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateUserEmployee&&(identical(other.userEmployee, userEmployee) || other.userEmployee == userEmployee)&&(identical(other.defaultPassword, defaultPassword) || other.defaultPassword == defaultPassword));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,userEmployee,defaultPassword);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'EmployeeEvent.createUserEmployee(userEmployee: $userEmployee, defaultPassword: $defaultPassword)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateUserEmployeeCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
+  factory $CreateUserEmployeeCopyWith(CreateUserEmployee value, $Res Function(CreateUserEmployee) _then) = _$CreateUserEmployeeCopyWithImpl;
+@useResult
+$Res call({
+ UserEmployee userEmployee, String defaultPassword
+});
+
+
+$UserEmployeeCopyWith<$Res> get userEmployee;
+
+}
+/// @nodoc
+class _$CreateUserEmployeeCopyWithImpl<$Res>
+    implements $CreateUserEmployeeCopyWith<$Res> {
+  _$CreateUserEmployeeCopyWithImpl(this._self, this._then);
+
+  final CreateUserEmployee _self;
+  final $Res Function(CreateUserEmployee) _then;
+
+/// Create a copy of EmployeeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? userEmployee = null,Object? defaultPassword = null,}) {
+  return _then(CreateUserEmployee(
+null == userEmployee ? _self.userEmployee : userEmployee // ignore: cast_nullable_to_non_nullable
+as UserEmployee,null == defaultPassword ? _self.defaultPassword : defaultPassword // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -231,10 +313,10 @@ as Employee,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$EmployeeCopyWith<$Res> get foundation {
+$UserEmployeeCopyWith<$Res> get userEmployee {
   
-  return $EmployeeCopyWith<$Res>(_self.foundation, (value) {
-    return _then(_self.copyWith(foundation: value));
+  return $UserEmployeeCopyWith<$Res>(_self.userEmployee, (value) {
+    return _then(_self.copyWith(userEmployee: value));
   });
 }
 }
@@ -314,69 +396,71 @@ as String,
 /// @nodoc
 
 
-class UpdateEmployee with DiagnosticableTreeMixin implements EmployeeEvent {
-  const UpdateEmployee(this.foundation);
+class UpdateUserEmployee with DiagnosticableTreeMixin implements EmployeeEvent {
+  const UpdateUserEmployee(this.userEmployee, this.resetPassword);
   
 
- final  Employee foundation;
+ final  UserEmployee userEmployee;
+ final  String? resetPassword;
 
 /// Create a copy of EmployeeEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$UpdateEmployeeCopyWith<UpdateEmployee> get copyWith => _$UpdateEmployeeCopyWithImpl<UpdateEmployee>(this, _$identity);
+$UpdateUserEmployeeCopyWith<UpdateUserEmployee> get copyWith => _$UpdateUserEmployeeCopyWithImpl<UpdateUserEmployee>(this, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'EmployeeEvent.updateEmployee'))
-    ..add(DiagnosticsProperty('foundation', foundation));
+    ..add(DiagnosticsProperty('type', 'EmployeeEvent.updateUserEmployee'))
+    ..add(DiagnosticsProperty('userEmployee', userEmployee))..add(DiagnosticsProperty('resetPassword', resetPassword));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateEmployee&&(identical(other.foundation, foundation) || other.foundation == foundation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateUserEmployee&&(identical(other.userEmployee, userEmployee) || other.userEmployee == userEmployee)&&(identical(other.resetPassword, resetPassword) || other.resetPassword == resetPassword));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,foundation);
+int get hashCode => Object.hash(runtimeType,userEmployee,resetPassword);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'EmployeeEvent.updateEmployee(foundation: $foundation)';
+  return 'EmployeeEvent.updateUserEmployee(userEmployee: $userEmployee, resetPassword: $resetPassword)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $UpdateEmployeeCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
-  factory $UpdateEmployeeCopyWith(UpdateEmployee value, $Res Function(UpdateEmployee) _then) = _$UpdateEmployeeCopyWithImpl;
+abstract mixin class $UpdateUserEmployeeCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
+  factory $UpdateUserEmployeeCopyWith(UpdateUserEmployee value, $Res Function(UpdateUserEmployee) _then) = _$UpdateUserEmployeeCopyWithImpl;
 @useResult
 $Res call({
- Employee foundation
+ UserEmployee userEmployee, String? resetPassword
 });
 
 
-$EmployeeCopyWith<$Res> get foundation;
+$UserEmployeeCopyWith<$Res> get userEmployee;
 
 }
 /// @nodoc
-class _$UpdateEmployeeCopyWithImpl<$Res>
-    implements $UpdateEmployeeCopyWith<$Res> {
-  _$UpdateEmployeeCopyWithImpl(this._self, this._then);
+class _$UpdateUserEmployeeCopyWithImpl<$Res>
+    implements $UpdateUserEmployeeCopyWith<$Res> {
+  _$UpdateUserEmployeeCopyWithImpl(this._self, this._then);
 
-  final UpdateEmployee _self;
-  final $Res Function(UpdateEmployee) _then;
+  final UpdateUserEmployee _self;
+  final $Res Function(UpdateUserEmployee) _then;
 
 /// Create a copy of EmployeeEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? foundation = null,}) {
-  return _then(UpdateEmployee(
-null == foundation ? _self.foundation : foundation // ignore: cast_nullable_to_non_nullable
-as Employee,
+@pragma('vm:prefer-inline') $Res call({Object? userEmployee = null,Object? resetPassword = freezed,}) {
+  return _then(UpdateUserEmployee(
+null == userEmployee ? _self.userEmployee : userEmployee // ignore: cast_nullable_to_non_nullable
+as UserEmployee,freezed == resetPassword ? _self.resetPassword : resetPassword // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -384,91 +468,10 @@ as Employee,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$EmployeeCopyWith<$Res> get foundation {
+$UserEmployeeCopyWith<$Res> get userEmployee {
   
-  return $EmployeeCopyWith<$Res>(_self.foundation, (value) {
-    return _then(_self.copyWith(foundation: value));
-  });
-}
-}
-
-/// @nodoc
-
-
-class ImportEmployeeUsers with DiagnosticableTreeMixin implements EmployeeEvent {
-  const ImportEmployeeUsers(this.importEmployee);
-  
-
- final  ImportEmployee importEmployee;
-
-/// Create a copy of EmployeeEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ImportEmployeeUsersCopyWith<ImportEmployeeUsers> get copyWith => _$ImportEmployeeUsersCopyWithImpl<ImportEmployeeUsers>(this, _$identity);
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'EmployeeEvent.importEmployeeUsers'))
-    ..add(DiagnosticsProperty('importEmployee', importEmployee));
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportEmployeeUsers&&(identical(other.importEmployee, importEmployee) || other.importEmployee == importEmployee));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,importEmployee);
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'EmployeeEvent.importEmployeeUsers(importEmployee: $importEmployee)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ImportEmployeeUsersCopyWith<$Res> implements $EmployeeEventCopyWith<$Res> {
-  factory $ImportEmployeeUsersCopyWith(ImportEmployeeUsers value, $Res Function(ImportEmployeeUsers) _then) = _$ImportEmployeeUsersCopyWithImpl;
-@useResult
-$Res call({
- ImportEmployee importEmployee
-});
-
-
-$ImportEmployeeCopyWith<$Res> get importEmployee;
-
-}
-/// @nodoc
-class _$ImportEmployeeUsersCopyWithImpl<$Res>
-    implements $ImportEmployeeUsersCopyWith<$Res> {
-  _$ImportEmployeeUsersCopyWithImpl(this._self, this._then);
-
-  final ImportEmployeeUsers _self;
-  final $Res Function(ImportEmployeeUsers) _then;
-
-/// Create a copy of EmployeeEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? importEmployee = null,}) {
-  return _then(ImportEmployeeUsers(
-null == importEmployee ? _self.importEmployee : importEmployee // ignore: cast_nullable_to_non_nullable
-as ImportEmployee,
-  ));
-}
-
-/// Create a copy of EmployeeEvent
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ImportEmployeeCopyWith<$Res> get importEmployee {
-  
-  return $ImportEmployeeCopyWith<$Res>(_self.importEmployee, (value) {
-    return _then(_self.copyWith(importEmployee: value));
+  return $UserEmployeeCopyWith<$Res>(_self.userEmployee, (value) {
+    return _then(_self.copyWith(userEmployee: value));
   });
 }
 }

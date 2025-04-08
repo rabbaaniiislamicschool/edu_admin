@@ -23,7 +23,8 @@ abstract class FoundationModel with _$FoundationModel {
     @JsonKey(name: 'website_url') String? websiteUrl,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'is_admin', includeToJson: false) bool? isAdmin,
-    @JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    UploadStorageModel? uploadStorage,
   }) = _FoundationModel;
 
   factory FoundationModel.fromJson(Map<String, dynamic> json) =>

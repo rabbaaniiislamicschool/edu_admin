@@ -5,16 +5,10 @@ nextTypeId: 1
 types:
   UserLoginData:
     typeId: 0
-    nextIndex: 12
+    nextIndex: 14
     fields:
-      studentNumberId:
-        index: 0
-      password:
-        index: 1
       userId:
         index: 2
-      foundationId:
-        index: 3
       fullName:
         index: 4
       email:
@@ -31,3 +25,7 @@ types:
         index: 10
       phoneNumber:
         index: 11
+      schoolId:
+        index: 12
+      imageUrl:
+        index: 13

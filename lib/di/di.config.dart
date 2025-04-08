@@ -123,24 +123,44 @@ import 'package:edu_admin/features/classes/domain/use_cases/update_class_usecase
     as _i266;
 import 'package:edu_admin/features/classes/presentation/manager/class_bloc.dart'
     as _i40;
+import 'package:edu_admin/features/divisions/data/data_sources/division_datasource.dart'
+    as _i551;
+import 'package:edu_admin/features/divisions/data/repositories/division_repository_impl.dart'
+    as _i393;
+import 'package:edu_admin/features/divisions/domain/repositories/division_repository.dart'
+    as _i727;
+import 'package:edu_admin/features/divisions/domain/use_cases/create_division_usecase.dart'
+    as _i19;
+import 'package:edu_admin/features/divisions/domain/use_cases/create_divisions_usecase.dart'
+    as _i548;
+import 'package:edu_admin/features/divisions/domain/use_cases/delete_division_usecase.dart'
+    as _i458;
+import 'package:edu_admin/features/divisions/domain/use_cases/fetch_all_divisions_usecase.dart'
+    as _i18;
+import 'package:edu_admin/features/divisions/domain/use_cases/fetch_division_usecase.dart'
+    as _i478;
+import 'package:edu_admin/features/divisions/domain/use_cases/update_division_usecase.dart'
+    as _i330;
+import 'package:edu_admin/features/divisions/presentation/manager/division_bloc.dart'
+    as _i356;
 import 'package:edu_admin/features/employees/data/remote/data_sources/employee_remote_datasource.dart'
     as _i724;
 import 'package:edu_admin/features/employees/data/repositories/employee_repository_impl.dart'
     as _i769;
 import 'package:edu_admin/features/employees/domain/repositories/employee_repository.dart'
     as _i707;
-import 'package:edu_admin/features/employees/domain/use_cases/create_employee_usecase.dart'
-    as _i519;
+import 'package:edu_admin/features/employees/domain/use_cases/create_user_employee_usecase.dart'
+    as _i220;
+import 'package:edu_admin/features/employees/domain/use_cases/create_user_employees_usecase%20copy.dart'
+    as _i583;
 import 'package:edu_admin/features/employees/domain/use_cases/delete_employee_usecase.dart'
     as _i671;
 import 'package:edu_admin/features/employees/domain/use_cases/fetch_all_employees_usecase.dart'
     as _i148;
 import 'package:edu_admin/features/employees/domain/use_cases/fetch_employee_usecase.dart'
     as _i137;
-import 'package:edu_admin/features/employees/domain/use_cases/import_employee_users_usecase.dart'
-    as _i1032;
-import 'package:edu_admin/features/employees/domain/use_cases/update_employee_usecase.dart'
-    as _i964;
+import 'package:edu_admin/features/employees/domain/use_cases/update_user_employee_usecase.dart'
+    as _i813;
 import 'package:edu_admin/features/employees/presentation/manager/employee_bloc.dart'
     as _i208;
 import 'package:edu_admin/features/fee_types/data/data_sources/fee_type_datasource.dart'
@@ -225,6 +245,8 @@ import 'package:edu_admin/features/schools/domain/repositories/school_repository
     as _i749;
 import 'package:edu_admin/features/schools/domain/use_cases/create_school_usecase.dart'
     as _i70;
+import 'package:edu_admin/features/schools/domain/use_cases/create_schools_usecase.dart'
+    as _i779;
 import 'package:edu_admin/features/schools/domain/use_cases/delete_school_usecase.dart'
     as _i15;
 import 'package:edu_admin/features/schools/domain/use_cases/fetch_all_schools_usecase.dart'
@@ -324,6 +346,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i724.EmployeeRemoteDataSource>(
       () => _i724.EmployeeRemoteDataSourceImpl(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i551.DivisionDataSource>(
+      () => _i551.DivisionDataSourceImpl(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i696.TransactionDataSource>(
       () => _i696.TransactionDataSourceImpl(gh<_i454.SupabaseClient>()),
     );
@@ -353,6 +378,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i707.EmployeeRepository>(
       () => _i769.EmployeeRepositoryImpl(gh<_i724.EmployeeRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i727.DivisionRepository>(
+      () => _i393.DivisionRepositoryImpl(gh<_i551.DivisionDataSource>()),
     );
     gh.lazySingleton<_i749.SchoolRepository>(
       () => _i773.SchoolRepositoryImpl(gh<_i976.SchoolDataSource>()),
@@ -406,6 +434,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i365.ClassFeeRepository>(
       () => _i1012.ClassFeeRepositoryImpl(gh<_i963.ClassFeeDataSource>()),
     );
+    gh.factory<_i458.DeleteDivisionUseCase>(
+      () => _i458.DeleteDivisionUseCase(gh<_i727.DivisionRepository>()),
+    );
+    gh.factory<_i548.CreateDivisionsUseCase>(
+      () => _i548.CreateDivisionsUseCase(gh<_i727.DivisionRepository>()),
+    );
+    gh.factory<_i330.UpdateDivisionUseCase>(
+      () => _i330.UpdateDivisionUseCase(gh<_i727.DivisionRepository>()),
+    );
+    gh.factory<_i18.FetchAllDivisionsUseCase>(
+      () => _i18.FetchAllDivisionsUseCase(gh<_i727.DivisionRepository>()),
+    );
+    gh.factory<_i19.CreateDivisionUseCase>(
+      () => _i19.CreateDivisionUseCase(gh<_i727.DivisionRepository>()),
+    );
+    gh.factory<_i478.FetchDivisionUseCase>(
+      () => _i478.FetchDivisionUseCase(gh<_i727.DivisionRepository>()),
+    );
     gh.factory<_i532.FetchAllBillsUseCase>(
       () => _i532.FetchAllBillsUseCase(gh<_i111.BillRepository>()),
     );
@@ -430,23 +476,23 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i993.StudentClassRepositoryImpl(gh<_i899.StudentClassDataSource>()),
     );
+    gh.factory<_i220.CreateUserEmployeeUseCase>(
+      () => _i220.CreateUserEmployeeUseCase(gh<_i707.EmployeeRepository>()),
+    );
+    gh.factory<_i583.CreateUserEmployeesUseCase>(
+      () => _i583.CreateUserEmployeesUseCase(gh<_i707.EmployeeRepository>()),
+    );
     gh.factory<_i671.DeleteEmployeeUseCase>(
       () => _i671.DeleteEmployeeUseCase(gh<_i707.EmployeeRepository>()),
     );
     gh.factory<_i148.FetchAllEmployeesUseCase>(
       () => _i148.FetchAllEmployeesUseCase(gh<_i707.EmployeeRepository>()),
     );
-    gh.factory<_i519.CreateEmployeeUseCase>(
-      () => _i519.CreateEmployeeUseCase(gh<_i707.EmployeeRepository>()),
-    );
     gh.factory<_i137.FetchEmployeeUseCase>(
       () => _i137.FetchEmployeeUseCase(gh<_i707.EmployeeRepository>()),
     );
-    gh.factory<_i1032.ImportEmployeeUsersUseCase>(
-      () => _i1032.ImportEmployeeUsersUseCase(gh<_i707.EmployeeRepository>()),
-    );
-    gh.factory<_i964.UpdateEmployeeUseCase>(
-      () => _i964.UpdateEmployeeUseCase(gh<_i707.EmployeeRepository>()),
+    gh.factory<_i813.UpdateUserEmployeeUseCase>(
+      () => _i813.UpdateUserEmployeeUseCase(gh<_i707.EmployeeRepository>()),
     );
     gh.factory<_i266.UpdateClassUseCase>(
       () => _i266.UpdateClassUseCase(gh<_i292.ClassRepository>()),
@@ -516,6 +562,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i838.RoomRepository>(
       () => _i298.RoomRepositoryImpl(gh<_i806.RoomDataSource>()),
     );
+    gh.factory<_i356.DivisionBloc>(
+      () => _i356.DivisionBloc(
+        gh<_i478.FetchDivisionUseCase>(),
+        gh<_i18.FetchAllDivisionsUseCase>(),
+        gh<_i19.CreateDivisionUseCase>(),
+        gh<_i458.DeleteDivisionUseCase>(),
+        gh<_i330.UpdateDivisionUseCase>(),
+        gh<_i548.CreateDivisionsUseCase>(),
+      ),
+    );
     gh.factory<_i502.FetchSchoolUseCase>(
       () => _i502.FetchSchoolUseCase(gh<_i749.SchoolRepository>()),
     );
@@ -527,6 +583,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i346.UpdateSchoolUseCase>(
       () => _i346.UpdateSchoolUseCase(gh<_i749.SchoolRepository>()),
+    );
+    gh.factory<_i779.CreateSchoolsUseCase>(
+      () => _i779.CreateSchoolsUseCase(gh<_i749.SchoolRepository>()),
     );
     gh.factory<_i472.FetchAllSchoolsUseCase>(
       () => _i472.FetchAllSchoolsUseCase(gh<_i749.SchoolRepository>()),
@@ -553,12 +612,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i62.DeleteStudentFeeUseCase>(
       () => _i62.DeleteStudentFeeUseCase(gh<_i156.StudentFeeRepository>()),
     );
-    gh.lazySingleton<_i815.AuthRepository>(
-      () => _i219.AuthRepositoryImpl(
-        gh<_i668.AuthLocalDataSource>(),
-        gh<_i1011.AuthRemoteDataSource>(),
-      ),
-    );
     gh.factory<_i621.SchoolBloc>(
       () => _i621.SchoolBloc(
         gh<_i502.FetchSchoolUseCase>(),
@@ -566,6 +619,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i70.CreateSchoolUseCase>(),
         gh<_i15.DeleteSchoolUseCase>(),
         gh<_i346.UpdateSchoolUseCase>(),
+        gh<_i779.CreateSchoolsUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i815.AuthRepository>(
+      () => _i219.AuthRepositoryImpl(
+        gh<_i668.AuthLocalDataSource>(),
+        gh<_i1011.AuthRemoteDataSource>(),
       ),
     );
     gh.factory<_i829.BillBloc>(
@@ -647,6 +707,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i464.UpdatePasswordUseCase>(
       () => _i464.UpdatePasswordUseCase(gh<_i984.ForgetPasswordRepository>()),
     );
+    gh.factory<_i208.EmployeeBloc>(
+      () => _i208.EmployeeBloc(
+        gh<_i137.FetchEmployeeUseCase>(),
+        gh<_i148.FetchAllEmployeesUseCase>(),
+        gh<_i583.CreateUserEmployeesUseCase>(),
+        gh<_i671.DeleteEmployeeUseCase>(),
+        gh<_i813.UpdateUserEmployeeUseCase>(),
+        gh<_i220.CreateUserEmployeeUseCase>(),
+      ),
+    );
     gh.factory<_i797.UpdateClassTeacherUseCase>(
       () => _i797.UpdateClassTeacherUseCase(gh<_i30.ClassTeacherRepository>()),
     );
@@ -689,16 +759,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i301.CheckAuthStatusUseCase>(
       () => _i301.CheckAuthStatusUseCase(gh<_i815.AuthRepository>()),
-    );
-    gh.factory<_i208.EmployeeBloc>(
-      () => _i208.EmployeeBloc(
-        gh<_i137.FetchEmployeeUseCase>(),
-        gh<_i148.FetchAllEmployeesUseCase>(),
-        gh<_i519.CreateEmployeeUseCase>(),
-        gh<_i671.DeleteEmployeeUseCase>(),
-        gh<_i964.UpdateEmployeeUseCase>(),
-        gh<_i1032.ImportEmployeeUsersUseCase>(),
-      ),
     );
     gh.factory<_i840.PasswordBloc>(
       () => _i840.PasswordBloc(

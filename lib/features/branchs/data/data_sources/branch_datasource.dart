@@ -1,5 +1,6 @@
 import 'package:edu_admin/core/utils/safe_request.dart';
 import 'package:edu_admin/features/branchs/domain/entities/branch.dart';
+import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -29,7 +30,10 @@ class BranchDataSourceImpl implements BranchDataSource {
   @override
   Future<Either<Failure, void>> createBranch(BranchModel branch) {
     return safeRequest(() async {
-      await _client.from('branches').insert(branch.toJson());
+      String? imageUrl = await _uploadBranchImage(branch);
+      await _client
+          .from('branches')
+          .insert(branch.copyWith(imageUrl: imageUrl).toJson());
       return Right(null);
     });
   }
@@ -47,7 +51,7 @@ class BranchDataSourceImpl implements BranchDataSource {
     return safeRequest(() async {
       final result = await _client
           .from('branches')
-          .select('*')
+          .select('*, foundations(*)')
           .withConverter((data) => data.map(BranchModel.fromJson).toList());
       return Right(result);
     });
@@ -58,7 +62,7 @@ class BranchDataSourceImpl implements BranchDataSource {
     return safeRequest(() async {
       final result = await _client
           .from('branches')
-          .select('*')
+          .select('*, foundations(*)')
           .eq('branch_id', branchId)
           .limit(1)
           .single()
@@ -70,18 +74,17 @@ class BranchDataSourceImpl implements BranchDataSource {
   @override
   Future<Either<Failure, void>> updateBranch(BranchModel branch) {
     return safeRequest(() async {
+      String? imageUrl = await _uploadBranchImage(branch, isUpdate: true);
       await _client
           .from('branches')
-          .update(branch.toJson())
+          .update(branch.copyWith(imageUrl: imageUrl).toJson())
           .eq('branch_id', '${branch.branchId}');
       return Right(null);
     });
   }
 
   @override
-  Future<Either<Failure, void>> createBranches(
-      List<BranchModel> branches,
-      ) {
+  Future<Either<Failure, void>> createBranches(List<BranchModel> branches) {
     return safeRequest(() async {
       final jsonList = branches.map((model) => model.toJson()).toList();
       await _client.from('branches').insert(jsonList); // Batch insert
@@ -89,25 +92,25 @@ class BranchDataSourceImpl implements BranchDataSource {
     });
   }
 
-  Future<String?> _uploadBranchImage(BranchModel branch, {bool isUpdate = false}) async {
+  Future<String?> _uploadBranchImage(
+    BranchModel branch, {
+    bool isUpdate = false,
+  }) async {
     if (branch.uploadStorage == null) return null;
     final bucket = 'branches';
     final fileName = branch.uploadStorage?.fileName;
     final path = 'images/$fileName';
 
-    if(isUpdate && branch.imageUrl != null){
-      final path = branch.imageUrl!.split('/storage/v1/object/public/$bucket/').last;
+    if (isUpdate && branch.imageUrl != null) {
+      final path =
+          branch.imageUrl!.split('/storage/v1/object/public/$bucket/').last;
       await _client.storage.from(bucket).remove([path]);
     }
 
     await _client.storage
         .from(bucket)
-        .uploadBinary(
-        path,
-        branch.uploadStorage!.bytes
-    );
+        .uploadBinary(path, branch.uploadStorage!.bytes);
     final publicUrl = _client.storage.from(bucket).getPublicUrl(path);
     return publicUrl;
   }
-  
 }

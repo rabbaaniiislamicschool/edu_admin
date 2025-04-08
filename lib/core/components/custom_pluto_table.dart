@@ -147,7 +147,7 @@ class CustomPlutoTable extends HookWidget {
         ),
       ],
       child: IconButton(
-        icon: FIcon(FAssets.icons.ellipsis),
+        icon: FIcon(FAssets.icons.ellipsis, color: context.primaryColor),
         onPressed: controller.toggle,
       ),
     );

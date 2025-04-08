@@ -17,33 +17,26 @@ class UserLoginDataAdapter extends TypeAdapter<UserLoginData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserLoginData(
-      studentNumberId: fields[0] as String,
-      password: fields[1] as String,
-      userId: fields[2] as String,
-      foundationId: fields[3] as String,
+      userId: fields[2] as String?,
+      schoolId: (fields[12] as num).toInt(),
       fullName: fields[4] as String,
-      email: fields[5] as String,
+      phoneNumber: fields[11] as String,
       gender: fields[6] as String,
       dob: fields[7] as String,
+      birthPlace: fields[10] as String,
+      email: fields[5] as String?,
       address: fields[8] as String?,
-      createdAt: fields[9] as String,
-      birthPlace: fields[10] as String?,
-      phoneNumber: fields[11] as String,
+      createdAt: fields[9] as String?,
+      imageUrl: fields[13] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserLoginData obj) {
     writer
-      ..writeByte(12)
-      ..writeByte(0)
-      ..write(obj.studentNumberId)
-      ..writeByte(1)
-      ..write(obj.password)
+      ..writeByte(11)
       ..writeByte(2)
       ..write(obj.userId)
-      ..writeByte(3)
-      ..write(obj.foundationId)
       ..writeByte(4)
       ..write(obj.fullName)
       ..writeByte(5)
@@ -59,7 +52,11 @@ class UserLoginDataAdapter extends TypeAdapter<UserLoginData> {
       ..writeByte(10)
       ..write(obj.birthPlace)
       ..writeByte(11)
-      ..write(obj.phoneNumber);
+      ..write(obj.phoneNumber)
+      ..writeByte(12)
+      ..write(obj.schoolId)
+      ..writeByte(13)
+      ..write(obj.imageUrl);
   }
 
   @override

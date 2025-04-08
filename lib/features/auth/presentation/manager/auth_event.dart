@@ -7,7 +7,7 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.checkAuthStatus() = CheckAuthStatusEvent;
 
   const factory AuthEvent.loginRequested({
-    required String studentNumberId,
+    required String phoneNumber,
     required String password,
   }) = LoginRequested;
 

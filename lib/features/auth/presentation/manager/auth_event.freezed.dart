@@ -78,10 +78,10 @@ String toString() {
 
 
 class LoginRequested implements AuthEvent {
-  const LoginRequested({required this.studentNumberId, required this.password});
+  const LoginRequested({required this.phoneNumber, required this.password});
   
 
- final  String studentNumberId;
+ final  String phoneNumber;
  final  String password;
 
 /// Create a copy of AuthEvent
@@ -94,16 +94,16 @@ $LoginRequestedCopyWith<LoginRequested> get copyWith => _$LoginRequestedCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginRequested&&(identical(other.studentNumberId, studentNumberId) || other.studentNumberId == studentNumberId)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginRequested&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.password, password) || other.password == password));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,studentNumberId,password);
+int get hashCode => Object.hash(runtimeType,phoneNumber,password);
 
 @override
 String toString() {
-  return 'AuthEvent.loginRequested(studentNumberId: $studentNumberId, password: $password)';
+  return 'AuthEvent.loginRequested(phoneNumber: $phoneNumber, password: $password)';
 }
 
 
@@ -114,7 +114,7 @@ abstract mixin class $LoginRequestedCopyWith<$Res> implements $AuthEventCopyWith
   factory $LoginRequestedCopyWith(LoginRequested value, $Res Function(LoginRequested) _then) = _$LoginRequestedCopyWithImpl;
 @useResult
 $Res call({
- String studentNumberId, String password
+ String phoneNumber, String password
 });
 
 
@@ -131,9 +131,9 @@ class _$LoginRequestedCopyWithImpl<$Res>
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? studentNumberId = null,Object? password = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? phoneNumber = null,Object? password = null,}) {
   return _then(LoginRequested(
-studentNumberId: null == studentNumberId ? _self.studentNumberId : studentNumberId // ignore: cast_nullable_to_non_nullable
+phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));

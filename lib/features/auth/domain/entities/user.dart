@@ -1,3 +1,5 @@
+import 'package:edu_admin/core/model/upload_storage_model.dart';
+import 'package:edu_admin/features/schools/domain/entities/school.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/remote/models/user_model.dart';
@@ -7,18 +9,19 @@ part 'user.freezed.dart';
 @freezed
 abstract class User with _$User {
   const factory User({
-    required String userId,
-    required String foundationId,
+    String? userId,
+    required int schoolId,
     required String fullName,
-    required String email,
     required String phoneNumber,
     required String gender,
     required String dob,
+    required String birthPlace,
+    String? email,
     String? address,
-    required String createdAt,
-    String? birthPlace,
-    String? studentNumberId,
-    String? savedPassword,
+    String? createdAt,
+    String? imageUrl,
+    UploadStorage? uploadStrorage,
+    School? school,
   }) = _User;
 }
 
@@ -26,7 +29,7 @@ extension UserX on User {
   UserModel toModel() {
     return UserModel(
       userId: userId,
-      foundationId: foundationId,
+      schoolId: schoolId,
       fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
@@ -35,6 +38,9 @@ extension UserX on User {
       createdAt: createdAt,
       birthPlace: birthPlace,
       address: address,
+      imageUrl: imageUrl,
+      uploadStorage: uploadStrorage?.toModel(),
+      school: school?.toModel(),
     );
   }
 }

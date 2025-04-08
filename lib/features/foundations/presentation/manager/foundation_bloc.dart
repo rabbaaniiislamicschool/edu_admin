@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:edu_admin/core/error/failure.dart';
+import 'package:edu_admin/features/foundations/domain/entities/foundation.dart';
 import 'package:edu_admin/features/foundations/domain/use_cases/fetch_foundation_usecase.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/src/either.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/use_cases/create_foundation_usecase.dart';
@@ -42,13 +45,8 @@ class FoundationBloc extends Bloc<FoundationEvent, FoundationState> {
     FetchFoundations event,
     Emitter<FoundationState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        status: FoundationStatus.loading,
-        errorMessage: null,
-      ),
-    );
-    final result = await _fetchAllFoundationsUseCase.execute(null);
+    emit(state.copyWith(status: FoundationStatus.loading, errorMessage: null));
+    final result = await fetchAllFoundations();
     result.fold(
       (failure) => emit(
         state.copyWith(
@@ -100,11 +98,7 @@ class FoundationBloc extends Bloc<FoundationEvent, FoundationState> {
           status: FoundationStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-            status: FoundationStatus.deleteSuccess,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: FoundationStatus.deleteSuccess)),
     );
   }
 
@@ -121,11 +115,7 @@ class FoundationBloc extends Bloc<FoundationEvent, FoundationState> {
           status: FoundationStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          status: FoundationStatus.updateSuccess,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: FoundationStatus.updateSuccess)),
     );
   }
 
@@ -142,11 +132,7 @@ class FoundationBloc extends Bloc<FoundationEvent, FoundationState> {
           status: FoundationStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          status: FoundationStatus.insertSuccess,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: FoundationStatus.insertSuccess)),
     );
   }
 
@@ -163,11 +149,11 @@ class FoundationBloc extends Bloc<FoundationEvent, FoundationState> {
           status: FoundationStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          status: FoundationStatus.importSuccess,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: FoundationStatus.importSuccess)),
     );
+  }
+
+  Future<Either<Failure, List<Foundation>>> fetchAllFoundations() {
+    return _fetchAllFoundationsUseCase.execute(null);
   }
 }

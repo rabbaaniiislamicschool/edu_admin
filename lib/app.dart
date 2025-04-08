@@ -3,6 +3,7 @@ import 'package:edu_admin/features/branchs/presentation/manager/branch_bloc.dart
 import 'package:edu_admin/features/class_fees/presentation/manager/class_fee_bloc.dart';
 import 'package:edu_admin/features/class_teachers/presentation/manager/class_teacher_bloc.dart';
 import 'package:edu_admin/features/classes/presentation/manager/class_bloc.dart';
+import 'package:edu_admin/features/divisions/presentation/manager/division_bloc.dart';
 import 'package:edu_admin/features/fee_types/presentation/manager/fee_type_bloc.dart';
 import 'package:edu_admin/features/forget_password/presentation/manager/password_bloc.dart';
 import 'package:edu_admin/features/foundations/presentation/manager/foundation_bloc.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<BranchBloc>()),
         BlocProvider(create: (context) => getIt<ClassBloc>()),
         BlocProvider(create: (context) => getIt<SchoolBloc>()),
+        BlocProvider(create: (context) => getIt<DivisionBloc>()),
         BlocProvider(create: (context) => getIt<BillBloc>()),
         BlocProvider(create: (context) => getIt<ClassFeeBloc>()),
         BlocProvider(create: (context) => getIt<ClassTeacherBloc>()),
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<EmployeeBloc>()),
       ],
       child: ShadApp.router(
+        localizationsDelegates: [S.delegate],
         builder: (context, child) {
           return FTheme(
             data:
@@ -60,12 +63,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.system,
               locale: const Locale('id'),
-              localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
+              localizationsDelegates: const [S.delegate],
               theme: FluentThemeData(
                 accentColor: Colors.green,
                 brightness: Brightness.light,

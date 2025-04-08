@@ -9,10 +9,10 @@ part 'division_model.g.dart';
 @freezed
 abstract class DivisionModel with _$DivisionModel {
   const factory DivisionModel({
-    @JsonKey(name: 'division_id', includeToJson: false) required int divisionId,
+    @JsonKey(name: 'division_id', includeToJson: false) int? divisionId,
     @JsonKey(name: 'division_name') required String divisionName,
-    @JsonKey(name: 'created_at', includeToJson: false) required String createdAt,
-    @JsonKey(name: 'updated_at') required String updatedAt,
+    @JsonKey(name: 'created_at', includeToJson: false) String? createdAt,
+    @JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,
   }) = _DivisionModel;
 
   factory DivisionModel.fromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,6 @@
 import 'package:edu_admin/core/error/failure.dart';
 import 'package:edu_admin/features/employees/domain/entities/employee.dart';
-import 'package:edu_admin/features/employees/domain/entities/import_employee.dart';
+import 'package:edu_admin/features/employees/domain/entities/user_employee.dart';
 import 'package:edu_admin/features/employees/domain/repositories/employee_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
@@ -13,11 +13,6 @@ class EmployeeRepositoryImpl implements EmployeeRepository {
   final EmployeeRemoteDataSource _dataSource;
 
   EmployeeRepositoryImpl(this._dataSource);
-
-  @override
-  Future<Either<Failure, void>> createEmployee(Employee employee) {
-    return _dataSource.createEmployee(employee.toModel());
-  }
 
   @override
   Future<Either<Failure, void>> deleteEmployee(String employeeId) {
@@ -37,13 +32,39 @@ class EmployeeRepositoryImpl implements EmployeeRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateEmployee(Employee employee) {
-    return _dataSource.updateEmployee(employee.toModel());
+  Future<Either<Failure, List<Employee>>> createUserEmployees(
+    List<UserEmployee> userEmployees,
+    String defaultPassword,
+  ) async {
+    final models =
+        userEmployees.map((userEmployee) => userEmployee.toModel()).toList();
+    final result = await _dataSource.createUserEmployees(
+      models,
+      defaultPassword,
+    );
+    return result.map((data) => data.map((model) => model.toEntity()).toList());
   }
 
   @override
-  Future<Either<Failure, List<Employee>>> importEmployeeUsers(ImportEmployee importEmployee) async {
-    final result = await _dataSource.importEmployeeUsers(importEmployee.toModel());
+  Future<Either<Failure, void>> updateUserEmployee(
+    UserEmployee userEmployee,
+    String? resetPassword,
+  ) {
+    return _dataSource.updateUserEmployee(
+      userEmployee.toModel(),
+      resetPassword,
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<Employee>>> createUserEmployee(
+    UserEmployee userEmployee,
+    String defaultPassword,
+  ) async {
+    final result = await _dataSource.createUserEmployee(
+      userEmployee.toModel(),
+      defaultPassword,
+    );
     return result.map((data) => data.map((model) => model.toEntity()).toList());
   }
 }

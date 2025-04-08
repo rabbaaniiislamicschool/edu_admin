@@ -31,17 +31,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _checkAuthStatusUseCase.execute(NoParams());
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          errorMessage: failure.message,
-          status: AuthStatus.failure,
-        ));
+        emit(
+          state.copyWith(
+            errorMessage: failure.message,
+            status: AuthStatus.failure,
+          ),
+        );
       },
       (isAuthenticated) {
-        emit(state.copyWith(
-          status: isAuthenticated
-              ? AuthStatus.authenticated
-              : AuthStatus.unauthenticated,
-        ));
+        emit(
+          state.copyWith(
+            status:
+                isAuthenticated
+                    ? AuthStatus.authenticated
+                    : AuthStatus.unauthenticated,
+          ),
+        );
       },
     );
   }
@@ -51,23 +56,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
-    final result = await _loginUseCase.execute(LoginParams(
-      phoneNumber: event.studentNumberId,
-      password: event.password,
-    ));
+    final result = await _loginUseCase.execute(
+      LoginParams(phoneNumber: event.phoneNumber, password: event.password),
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: failure.message,
+          ),
+        );
       },
       (user) {
-        emit(state.copyWith(
-          status: AuthStatus.authenticated,
-          currentUser: user,
-        ));
+        emit(
+          state.copyWith(status: AuthStatus.authenticated, currentUser: user),
+        );
       },
     );
   }
@@ -81,15 +86,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: failure.message,
+          ),
+        );
       },
       (user) {
-        emit(state.copyWith(
-          status: AuthStatus.unauthenticated,
-        ));
+        emit(state.copyWith(status: AuthStatus.unauthenticated));
       },
     );
   }

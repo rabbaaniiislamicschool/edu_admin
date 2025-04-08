@@ -1,3 +1,5 @@
+import 'package:edu_admin/features/divisions/domain/entities/division.dart';
+import 'package:edu_admin/features/schools/domain/entities/school.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -5,8 +7,16 @@ import '../../domain/entities/employee.dart';
 
 part 'employee_state.freezed.dart';
 
-enum EmployeeStatus { initial, loading, success, failure }
-
+enum EmployeeStatus {
+  initial,
+  loading,
+  success,
+  failure,
+  insertSuccess,
+  updateSuccess,
+  deleteSuccess,
+  importSuccess,
+}
 
 @freezed
 abstract class EmployeeState with _$EmployeeState {
@@ -15,7 +25,6 @@ abstract class EmployeeState with _$EmployeeState {
     String? errorMessage,
     String? successMessage,
     List<Employee>? employees,
-    List<Employee>? importedEmployees,
     Employee? employee,
   }) = _EmployeeState;
 

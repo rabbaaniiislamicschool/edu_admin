@@ -1,41 +1,42 @@
 import 'dart:async';
 
-
+import 'package:edu_admin/features/employees/domain/use_cases/create_user_employees_usecase%20copy.dart';
+import 'package:edu_admin/features/schools/domain/use_cases/fetch_all_schools_usecase.dart';
+import 'package:edu_admin/features/schools/presentation/manager/school_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/use_cases/create_employee_usecase.dart';
+import '../../domain/use_cases/create_user_employee_usecase.dart';
 import '../../domain/use_cases/delete_employee_usecase.dart';
 import '../../domain/use_cases/fetch_all_employees_usecase.dart';
 import '../../domain/use_cases/fetch_employee_usecase.dart';
-import '../../domain/use_cases/import_employee_users_usecase.dart';
-import '../../domain/use_cases/update_employee_usecase.dart';
+import '../../domain/use_cases/update_user_employee_usecase.dart';
 import 'employee_event.dart';
 import 'employee_state.dart';
 
 @injectable
 class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
-  final CreateEmployeeUseCase _createEmployeeUseCase;
+  final CreateUserEmployeesUseCase _createUserEmployeesUseCase;
+  final CreateUserEmployeeUseCase _createUserEmployeeUseCase;
   final DeleteEmployeeUseCase _deleteEmployeeUseCase;
-  final UpdateEmployeeUseCase _updateEmployeeUseCase;
+  final UpdateUserEmployeeUseCase _updateUserEmployeeUseCase;
   final FetchEmployeeUseCase _fetchEmployeeUseCase;
   final FetchAllEmployeesUseCase _fetchAllEmployeesUseCase;
-  final ImportEmployeeUsersUseCase _importEmployeeUsersUseCase;
 
   EmployeeBloc(
     this._fetchEmployeeUseCase,
     this._fetchAllEmployeesUseCase,
-    this._createEmployeeUseCase,
+    this._createUserEmployeesUseCase,
     this._deleteEmployeeUseCase,
-    this._updateEmployeeUseCase,
-    this._importEmployeeUsersUseCase,
+    this._updateUserEmployeeUseCase,
+    this._createUserEmployeeUseCase,
   ) : super(EmployeeState.initial()) {
     on<FetchEmployees>(_onFetchEmployees);
     on<GetEmployeeById>(_onGetEmployeeById);
     on<DeleteEmployee>(_onDeleteEmployee);
-    on<UpdateEmployee>(_onUpdateEmployee);
-    on<CreateEmployee>(_onCreateEmployee);
-    on<ImportEmployeeUsers>(_onImportEmployeeUsers);
+    on<UpdateUserEmployee>(_onUpdateUserEmployee);
+    on<CreateUserEmployees>(_onCreateUserEmployees);
+    on<CreateUserEmployee>(_onCreateUserEmployee);
   }
 
   Future<void> _onFetchEmployees(
@@ -57,12 +58,8 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (data) => emit(
-        state.copyWith(
-          status: EmployeeStatus.success,
-          employees: data,
-        ),
-      ),
+      (data) =>
+          emit(state.copyWith(status: EmployeeStatus.success, employees: data)),
     );
   }
 
@@ -79,9 +76,8 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (data) => emit(
-        state.copyWith(status: EmployeeStatus.success, employee: data),
-      ),
+      (data) =>
+          emit(state.copyWith(status: EmployeeStatus.success, employee: data)),
     );
   }
 
@@ -98,21 +94,18 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          successMessage: 'Success',
-          status: EmployeeStatus.success,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: EmployeeStatus.deleteSuccess)),
     );
   }
 
-  Future<void> _onUpdateEmployee(
-    UpdateEmployee event,
+  Future<void> _onUpdateUserEmployee(
+    UpdateUserEmployee event,
     Emitter<EmployeeState> emit,
   ) async {
     emit(state.copyWith(status: EmployeeStatus.loading));
-    final result = await _updateEmployeeUseCase.execute(event.foundation);
+    final result = await _updateUserEmployeeUseCase.execute(
+      UpdateUserEmployeeParams(event.userEmployee, event.resetPassword),
+    );
     result.fold(
       (failure) => emit(
         state.copyWith(
@@ -120,21 +113,21 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          successMessage: 'Success',
-          status: EmployeeStatus.success,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: EmployeeStatus.updateSuccess)),
     );
   }
 
-  Future<void> _onCreateEmployee(
-    CreateEmployee event,
+  Future<void> _onCreateUserEmployees(
+    CreateUserEmployees event,
     Emitter<EmployeeState> emit,
   ) async {
     emit(state.copyWith(status: EmployeeStatus.loading));
-    final result = await _createEmployeeUseCase.execute(event.foundation);
+    final result = await _createUserEmployeesUseCase.execute(
+      CreateUserEmployeesParams(
+        userEmployees: event.userEmployees,
+        defaultPassword: event.defaultPassword,
+      ),
+    );
     result.fold(
       (failure) => emit(
         state.copyWith(
@@ -142,24 +135,20 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (_) => emit(
-        state.copyWith(
-          successMessage: 'Success',
-          status: EmployeeStatus.success,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: EmployeeStatus.importSuccess)),
     );
   }
 
-  Future<void> _onImportEmployeeUsers(
-    ImportEmployeeUsers event,
+  Future<void> _onCreateUserEmployee(
+    CreateUserEmployee event,
     Emitter<EmployeeState> emit,
   ) async {
-    emit(
-      state.copyWith(status: EmployeeStatus.loading, importedEmployees: null),
-    );
-    final result = await _importEmployeeUsersUseCase.execute(
-      event.importEmployee,
+    emit(state.copyWith(status: EmployeeStatus.loading));
+    final result = await _createUserEmployeeUseCase.execute(
+      CreateUserEmployeeParams(
+        userEmployees: event.userEmployee,
+        defaultPassword: event.defaultPassword,
+      ),
     );
     result.fold(
       (failure) => emit(
@@ -168,13 +157,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
           status: EmployeeStatus.failure,
         ),
       ),
-      (data) => emit(
-        state.copyWith(
-          successMessage: 'Success',
-          status: EmployeeStatus.success,
-          importedEmployees: data,
-        ),
-      ),
+      (_) => emit(state.copyWith(status: EmployeeStatus.insertSuccess)),
     );
   }
 }

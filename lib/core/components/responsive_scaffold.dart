@@ -3,7 +3,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forui/forui.dart';
-import 'package:forui_hooks/forui_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -32,7 +31,6 @@ class ResponsiveScaffold extends HookWidget {
   Widget build(BuildContext context) {
     final currentIndex = getCurrentIndex(context);
     final displayMode = useState<PaneDisplayMode>(PaneDisplayMode.auto);
-    print('CHECKLOCATION: $currentIndex');
     final topIndex = useState<int>(currentIndex);
 
     return NavigationView(
@@ -176,7 +174,7 @@ class ResponsiveScaffold extends HookWidget {
               body: child,
               onTap: () => SchoolsRoute().go(context),
             ),
-          ]
+          ],
         ),
         PaneItem(
           icon: const Icon(FluentIcons.employee_self_service),

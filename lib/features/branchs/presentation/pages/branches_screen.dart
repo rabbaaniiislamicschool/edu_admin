@@ -63,197 +63,211 @@ class BranchesScreen extends HookWidget {
           },
           builder: (context, state) {
             final branches = state.branches ?? [];
-            return BlocConsumer<FoundationBloc, FoundationState>(
-              listener: (_, foundationState) async {
-                final foundations = foundationState.foundations;
-                final isSuccess =
-                    foundations != null &&
-                    foundationState.status == FoundationStatus.success;
-                if (isSuccess && action.value == 'template') {
-                  _generateImportTemplate(
-                    'Data Template Import Cabang',
-                    foundations,
-                  );
-                }
-                if (isSuccess && action.value == 'import') {
-                  final data = await _importExcelData(context, foundations);
-                  if (!context.mounted || data.isEmpty) return;
-                  context.read<BranchBloc>().add(
-                    BranchEvent.createBranches(data),
-                  );
-                }
+            return CustomPlutoTable(
+              isLoading: state.status == BranchStatus.loading,
+              onLoaded: (manager) {
+                manager.autoFitColumn(context, manager.columns.last);
+                return stateManager.value = manager;
               },
-              builder: (_, foundationState) {
-                return CustomPlutoTable(
-                  isLoading: state.status == BranchStatus.loading,
-                  onLoaded: (manager) {
-                    manager.autoFitColumn(context, manager.columns.last);
-                    return stateManager.value = manager;
+              title: 'Cabang',
+              menus: [
+                CustomMenu(
+                  title: 'Template Import Cabang',
+                  icon: Icons.download,
+                  onTap: () async {
+                    final result =
+                        await context
+                            .read<FoundationBloc>()
+                            .fetchAllFoundations();
+                    result.fold(
+                      (failure) {
+                        context.showErroMessage(failure.message);
+                      },
+                      (foundations) {
+                        _generateImportTemplate(
+                          'Template Import Cabang',
+                          foundations,
+                        );
+                      },
+                    );
                   },
+                ),
+                CustomMenu(
+                  title: 'Import data',
+                  icon: Icons.upload,
+                  onTap: () async {
+                    final result =
+                        await context
+                            .read<FoundationBloc>()
+                            .fetchAllFoundations();
+                    result.fold(
+                      (failure) {
+                        context.showErroMessage(failure.message);
+                      },
+                      (foundations) async {
+                        _importExcelData(context, foundations);
+                      },
+                    );
+                  },
+                ),
+                CustomMenu(
+                  title: 'Tambah Cabang',
+                  icon: Icons.add,
+                  onTap: () async {
+                    action.value = 'add';
+                    _showUpsertBranchDialog(context: context);
+                  },
+                ),
+                CustomMenu(
+                  title: 'Download Data Cabang',
+                  icon: Icons.download,
+                  onTap: () async {
+                    final result =
+                        await context
+                            .read<FoundationBloc>()
+                            .fetchAllFoundations();
+                    result.fold(
+                      (failure) {
+                        context.showErroMessage(failure.message);
+                      },
+                      (foundations) {
+                        _generateDataBranches(
+                          branches,
+                          'Data Cabang',
+                          foundations,
+                        );
+                      },
+                    );
+                  },
+                ),
+                CustomMenu(
+                  title: 'Print',
+                  icon: Icons.print,
+                  onTap: () {
+                    action.value = 'print';
+                    if (stateManager.value == null) return;
+                    _printPdf(stateManager.value!, 'Data Cabang');
+                  },
+                ),
+              ],
+              actionWidth: 120,
+              actions: [
+                CustomAction(
+                  title: 'Lihat Detail',
+                  icon: FAssets.icons.arrowRight,
+                  style: FButtonStyle.primary,
+                  onTap: (index) {
+                    showShadDialog(
+                      context: context,
+                      builder:
+                          (context) =>
+                              DetailBranchDialog(branch: branches[index]),
+                    );
+                  },
+                ),
+                CustomAction(
+                  title: 'Edit',
+                  icon: FAssets.icons.pen,
+                  style: FButtonStyle.outline,
+                  onTap: (index) {
+                    _showUpsertBranchDialog(
+                      context: context,
+                      branch: branches[index],
+                    );
+                  },
+                ),
+                CustomAction(
+                  title: 'Hapus',
+                  icon: FAssets.icons.trash,
+                  style: FButtonStyle.destructive,
+                  onTap: (index) {
+                    _showDeleteBranchDialog(context, branches[index]);
+                  },
+                ),
+              ],
+              columns: [
+                PlutoColumn(
                   title: 'Cabang',
-                  menus: [
-                    CustomMenu(
-                      title: 'Template Import Cabang',
-                      icon: Icons.download,
-                      isLoading:
-                          foundationState.status == FoundationStatus.loading &&
-                          action.value == 'template',
-                      onTap: () {
-                        action.value = 'template';
-                        context.read<FoundationBloc>().add(
-                          FoundationEvent.fetchFoundations(),
-                        );
-                      },
-                    ),
-                    CustomMenu(
-                      title: 'Import data',
-                      icon: Icons.upload,
-                      isLoading:
-                          foundationState.status == FoundationStatus.loading &&
-                          action.value == 'import',
-                      onTap: () async {
-                        action.value = 'import';
-                        context.read<FoundationBloc>().add(
-                          FoundationEvent.fetchFoundations(),
-                        );
-                      },
-                    ),
-                    CustomMenu(
-                      title: 'Tambah Cabang',
-                      icon: Icons.add,
-                      onTap: () async {
-                        _showUpsertBranchDialog(context: context);
-                      },
-                    ),
-                    CustomMenu(
-                      title: 'Download Data Cabang',
-                      icon: Icons.download,
-                      onTap: () {
-                        _generateDataBranches(branches, 'Data Export Cabang');
-                      },
-                    ),
-                    CustomMenu(
-                      title: 'Print',
-                      icon: Icons.print,
-                      onTap: () {
-                        if (stateManager.value == null) return;
-                        _printPdf(stateManager.value!, 'Data Cabang');
-                      },
-                    ),
-                  ],
-                  actionWidth: 120,
-                  actions: [
-                    CustomAction(
-                      title: 'Lihat Detail',
-                      icon: FAssets.icons.arrowRight,
-                      style: FButtonStyle.primary,
-                      onTap: (index) {
-                        showShadDialog(
-                          context: context,
-                          builder:
-                              (context) =>
-                                  DetailBranchDialog(branch: branches[index]),
-                        );
-                      },
-                    ),
-                    CustomAction(
-                      title: 'Edit',
-                      icon: FAssets.icons.pen,
-                      style: FButtonStyle.outline,
-                      onTap: (index) {
-                        _showUpsertBranchDialog(
-                          context: context,
-                          branch: branches[index],
-                        );
-                      },
-                    ),
-                    CustomAction(
-                      title: 'Hapus',
-                      icon: FAssets.icons.trash,
-                      style: FButtonStyle.destructive,
-                      onTap: (index) {
-                        _showDeleteBranchDialog(context, branches[index]);
-                      },
-                    ),
-                  ],
-                  columns: [
-                    PlutoColumn(
-                      title: 'Cabang',
-                      field: 'branch_name',
-                      type: PlutoColumnType.text(),
-                      suppressedAutoSize: true,
-                    ),
-                    PlutoColumn(
-                      title: 'Alamat',
-                      field: 'address',
-                      type: PlutoColumnType.text(),
-                    ),
-                    PlutoColumn(
-                      title: 'Nomor Telepon',
-                      field: 'phone_number',
-                      type: PlutoColumnType.text(),
-                    ),
-                    PlutoColumn(
-                      title: 'Email',
-                      field: 'email',
-                      type: PlutoColumnType.text(),
-                    ),
-                    PlutoColumn(
-                      title: 'Koordinat',
-                      field: 'coordinate',
-                      type: PlutoColumnType.text(),
-                    ),
-                    PlutoColumn(
-                      title: 'Tanggal Dibuat',
-                      field: 'created_at',
-                      type: PlutoColumnType.text(),
-                    ),
-                    PlutoColumn(
-                      title: 'Logo',
-                      field: 'logo',
-                      type: PlutoColumnType.text(),
-                      renderer: (rendererContext) {
-                        final imageUrl =
-                            branches[rendererContext.rowIdx].imageUrl;
+                  field: 'branch_name',
+                  type: PlutoColumnType.text(),
+                  suppressedAutoSize: true,
+                ),
+                PlutoColumn(
+                  title: 'Yayasan',
+                  field: 'foundation_name',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Alamat',
+                  field: 'address',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Nomor Telepon',
+                  field: 'phone_number',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Email',
+                  field: 'email',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Koordinat',
+                  field: 'coordinate',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Tanggal Dibuat',
+                  field: 'created_at',
+                  type: PlutoColumnType.text(),
+                ),
+                PlutoColumn(
+                  title: 'Logo',
+                  field: 'logo',
+                  type: PlutoColumnType.text(),
+                  renderer: (rendererContext) {
+                    final imageUrl = branches[rendererContext.rowIdx].imageUrl;
 
-                        return Image.network(
-                          '$imageUrl',
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                                  Icon(Icons.photo, size: 32),
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fitHeight,
-                        );
+                    return Image.network(
+                      '$imageUrl',
+                      errorBuilder:
+                          (context, error, stackTrace) =>
+                              Icon(Icons.photo, size: 32),
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fitHeight,
+                    );
+                  },
+                ),
+              ],
+              rows:
+                  branches.mapWithIndex((branch, index) {
+                    return PlutoRow(
+                      cells: {
+                        'no': PlutoCell(value: '${index + 1}'), // Required
+                        'action': PlutoCell(value: ''), // Required
+                        'branch_name': PlutoCell(value: branch.branchName),
+                        'foundation_name': PlutoCell(
+                          value: branch.foundation?.foundationName ?? '-',
+                        ),
+                        'address': PlutoCell(value: branch.address ?? '-'),
+                        'phone_number': PlutoCell(
+                          value: branch.phoneNumber ?? '-',
+                        ),
+                        'email': PlutoCell(value: branch.email ?? '-'),
+                        'created_at': PlutoCell(
+                          value: CustomDateUtils.formatStringDate(
+                            '${branch.createdAt}',
+                          ),
+                        ),
+                        'coordinate': PlutoCell(
+                          value: '${branch.latitude}, ${branch.longitude}',
+                        ),
+                        'logo': PlutoCell(value: ''),
                       },
-                    ),
-                  ],
-                  rows:
-                      branches.mapWithIndex((branch, index) {
-                        return PlutoRow(
-                          cells: {
-                            'no': PlutoCell(value: '${index + 1}'), // Required
-                            'action': PlutoCell(value: ''), // Required
-                            'branch_name': PlutoCell(value: branch.branchName),
-                            'address': PlutoCell(value: branch.address ?? '-'),
-                            'phone_number': PlutoCell(
-                              value: branch.phoneNumber ?? '-',
-                            ),
-                            'email': PlutoCell(value: branch.email ?? '-'),
-                            'created_at': PlutoCell(
-                              value: CustomDateUtils.formatStringDate(
-                                '${branch.createdAt}',
-                              ),
-                            ),
-                            'coordinate': PlutoCell(
-                              value: '${branch.latitude},${branch.longitude}',
-                            ),
-                            'logo': PlutoCell(value: branch.imageUrl ?? '-'),
-                          },
-                        );
-                      }).toList(),
-                );
-              },
+                    );
+                  }).toList(),
             );
           },
         ),
@@ -304,7 +318,8 @@ class BranchesScreen extends HookWidget {
       var row =
           rows[i].map((cell) => cell?.value.toString().trim() ?? "").toList();
 
-      if (row.length < requiredColumns || row.take(requiredColumns).every((cell) => cell.isEmpty)) {
+      if (row.length < requiredColumns ||
+          row.take(requiredColumns).every((cell) => cell.isEmpty)) {
         continue;
       }
 
@@ -326,32 +341,58 @@ class BranchesScreen extends HookWidget {
   Future<void> _generateDataBranches(
     List<Branch> branches,
     String fileName,
+    List<Foundation> foundations,
   ) async {
     var excel = Excel.createExcel();
     var sheet = excel['Sheet1'];
+
+    final foundationMapping = {
+      for (var item in foundations) item.foundationId: item.foundationName,
+    };
 
     // Header
     sheet.appendRow([
       TextCellValue('ID'),
       TextCellValue('Nama Cabang'),
+      TextCellValue('Yayasan'),
       TextCellValue('Alamat'),
       TextCellValue('Nomer Telepon'),
       TextCellValue('Email'),
+      TextCellValue('Koordinat'),
       TextCellValue('Tanggal Dibuat'),
       TextCellValue('Tanggal Diperbarui'),
+      TextCellValue('Keterangan - Daftar Yayasan:'),
     ]);
 
     for (final branch in branches) {
       sheet.appendRow([
         TextCellValue(branch.branchId.toString()),
         TextCellValue(branch.branchName),
+        TextCellValue(foundationMapping[branch.foundationId] ?? ''),
         TextCellValue(branch.address ?? ''),
         TextCellValue(branch.phoneNumber ?? ''),
         TextCellValue(branch.email ?? ''),
+        TextCellValue(
+          branch.latitude != null && branch.longitude != null
+              ? '${branch.latitude}, ${branch.longitude}'
+              : '',
+        ),
         // TextCellValue(branch.websiteUrl ?? ''),
         DateCellValue.fromDateTime(DateTime.parse(('${branch.createdAt}'))),
         DateCellValue.fromDateTime(DateTime.parse(('${branch.updatedAt}'))),
       ]);
+    }
+
+    for (int i = 0; i < foundations.length; i++) {
+      final foundationName = foundations[i].foundationName;
+      sheet.updateCell(
+        CellIndex.indexByColumnRow(columnIndex: 9, rowIndex: i + 1),
+        TextCellValue(foundationName),
+      );
+    }
+
+    for (var columnIndex = 0; columnIndex < sheet.maxColumns; columnIndex++) {
+      sheet.setColumnAutoFit(columnIndex);
     }
 
     List<int>? excelBytes = excel.encode();
@@ -375,8 +416,8 @@ class BranchesScreen extends HookWidget {
     var sheet = excel['Sheet1'];
 
     sheet.appendRow([
-      TextCellValue('Yayasan (Harus diisi)'),
       TextCellValue('Nama Cabang (Harus diisi)'),
+      TextCellValue('Yayasan (Harus diisi)'),
       TextCellValue('Alamat (Harus diisi)'),
       TextCellValue('Nomer Telepon (Harus diisi)'),
       TextCellValue('Email (Harus diisi)'),

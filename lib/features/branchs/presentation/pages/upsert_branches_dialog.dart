@@ -1,5 +1,6 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:edu_admin/core/components/input_form_field.dart';
+import 'package:edu_admin/core/components/select_form_field.dart';
 import 'package:edu_admin/core/model/upload_storage_model.dart';
 import 'package:edu_admin/core/routes/app_routes.dart';
 import 'package:edu_admin/core/utils/string_utils.dart';
@@ -31,10 +32,7 @@ class UpsertBranchDialog extends HookWidget {
   Widget build(BuildContext context) {
     final formKey = useMemoized(() => GlobalKey<ShadFormState>());
     final uploadSelected = useState<UploadStorage?>(null);
-    final foundationIdSelected = useState<String?>(null);
-    final searchValue = useState<String>('');
-
-    final foundationId = useTextEditingController();
+    final foundationIdSelected = useState<String?>(branch?.foundationId);
     final fileName = useTextEditingController();
     final branchName = useTextEditingController(text: branch?.branchName ?? '');
     final address = useTextEditingController(text: branch?.address ?? '');
@@ -42,9 +40,15 @@ class UpsertBranchDialog extends HookWidget {
       text: branch?.phoneNumber ?? '',
     );
     final email = useTextEditingController(text: branch?.email ?? '');
+    final coordinate = useTextEditingController(
+      text:
+          branch?.latitude != null && branch?.longitude != null
+              ? '${branch?.latitude}, ${branch?.longitude}'
+              : '',
+    );
 
     final isUpdate = branch != null;
-    final title = isUpdate ? 'Tambah Cabang' : 'Edit Cabang';
+    final title = isUpdate ? 'Edit Cabang' : 'Tambah Cabang';
 
     useEffect(() {
       context.read<FoundationBloc>().add(FoundationEvent.fetchFoundations());
@@ -75,17 +79,26 @@ class UpsertBranchDialog extends HookWidget {
                   if (!formKey.currentState!.saveAndValidate()) {
                     return;
                   }
+                  final latitude = double.tryParse(
+                    coordinate.text.split(',').first.trim(),
+                  );
+                  final longitude = double.tryParse(
+                    coordinate.text.split(',').last.trim(),
+                  );
+
                   final data = Branch(
                     branchId: branch?.branchId,
                     createdAt: branch?.createdAt,
                     updatedAt: isUpdate ? 'now()' : null,
                     address: address.text,
                     email: email.text,
+                    latitude: latitude,
+                    longitude: longitude,
                     imageUrl: branch?.imageUrl,
                     branchName: branchName.text,
                     phoneNumber: phoneNumber.text,
                     uploadStorage: uploadSelected.value,
-                    foundationId: foundationId.text,
+                    foundationId: '${foundationIdSelected.value}',
                   );
                   if (isUpdate) {
                     return context.read<BranchBloc>().add(
@@ -113,106 +126,24 @@ class UpsertBranchDialog extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SizedBox(height: 20),
-                GestureDetector(
-                  child: Image.network(
-                    'https://raw.githubusercontent.com/rabbaaniiislamicschool/Rabbaanii-Office/refs/heads/main/cara-mendapatkan-koordinat-lokasi.png',
-                    width: double.infinity,
-                    height: 128,
-                    fit: BoxFit.contain,
-                  ),
-                  onTap: () {
-                    final imageProvider =
-                        Image.network(
-                          "https://raw.githubusercontent.com/rabbaaniiislamicschool/Rabbaanii-Office/refs/heads/main/cara-mendapatkan-koordinat-lokasi.png",
-                        ).image;
-                    showImageViewer(
-                      context,
-                      imageProvider,
-                      onViewerDismissed: () {
-                        print("dismissed");
-                      },
-                    );
-                  },
-                ),
+                SizedBox(height: 8),
                 BlocBuilder<FoundationBloc, FoundationState>(
                   builder: (_, state) {
                     final foundations = state.foundations ?? [];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          children: [
-                            Text(
-                              'Yayasan',
-                              style: context.shadTextTheme.small.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              ' * ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ShadSelect<String>.withSearch(
-                                placeholder: const Text('Pilih yayasan...'),
-                                onSearchChanged:
-                                    (value) => searchValue.value = value,
-                                searchPlaceholder: const Text('Cari...'),
-                                searchInputLeading: Icon(Icons.add),
-                                onChanged:
-                                    (value) =>
-                                        foundationIdSelected.value = value,
-                                options: [
-                                  if (foundations.isEmpty)
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 24,
-                                      ),
-                                      child: Text('Data tidak ditemukan'),
-                                    ),
-                                  ...foundations.map((foundation) {
-                                    bool isVisible = foundation.foundationName
-                                        .toLowerCase()
-                                        .contains(
-                                          searchValue.value.toLowerCase(),
-                                        );
-
-                                    return Offstage(
-                                      offstage: !isVisible,
-                                      // Jika tidak cocok, item tetap ada tetapi disembunyikan
-                                      child: ShadOption(
-                                        value: foundation.foundationId ?? '',
-                                        child: Text(foundation.foundationName),
-                                      ),
-                                    );
-                                  }),
-                                ],
-                                selectedOptionBuilder: (context, value) {
-                                  final selectedFoundation = foundations
-                                      .firstWhere(
-                                        (f) => f.foundationId == value,
-                                        orElse:
-                                            () => Foundation(
-                                              foundationName: "Tidak Ditemukan",
-                                            ),
-                                      );
-                                  return Text(
-                                    selectedFoundation.foundationName,
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    return SelectFormField<Foundation>(
+                      title: 'Yayasan',
+                      isRequired: true,
+                      placeholder: 'Pilih Yayasan',
+                      searchPlaceholder: 'Cari...',
+                      items: foundations,
+                      itemLabel: (foundation) => foundation.foundationName,
+                      itemValue: (foundation) => foundation.foundationId ?? '',
+                      onChanged: (value) {
+                        foundationIdSelected.value = value;
+                        debugPrint('Foundation ID: $value');
+                      },
+                      initialValue:
+                          isUpdate ? foundationIdSelected.value : null,
                     );
                   },
                 ),
@@ -223,21 +154,6 @@ class UpsertBranchDialog extends HookWidget {
                   placeholderText: 'Nama Cabang',
                   leading: Icon(Icons.house, size: 20),
                   isRequired: true,
-                  onPressed: () async {
-                    final Uri uri = Uri.parse(
-                      'https://www.google.com/maps/search/',
-                    );
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(
-                        uri,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Could not launch URL")),
-                      );
-                    }
-                  },
                 ),
                 InputFormField(
                   controller: address,
@@ -266,6 +182,46 @@ class UpsertBranchDialog extends HookWidget {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 InputFormField(
+                  controller: coordinate,
+                  labelText: 'Koordinat Lokasi',
+                  placeholderText: '-6.xxxxxx, 106.xxxxxx',
+                  leading: Icon(Icons.location_city, size: 20),
+                  validator: StringUtils.coordinateValidator,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ShadButton.ghost(
+                      onPressed: () {
+                        final imageProvider =
+                            Image.network(
+                              "https://raw.githubusercontent.com/rabbaaniiislamicschool/Rabbaanii-Office/refs/heads/main/cara-mendapatkan-koordinat-lokasi.png",
+                            ).image;
+                        showImageViewer(context, imageProvider);
+                      },
+                      child: const Text('Tutorial Koordinat'),
+                    ),
+                    ShadButton.ghost(
+                      onPressed: () async {
+                        final Uri uri = Uri.parse(
+                          'https://www.google.com/maps/search/',
+                        );
+                        final isAvailable = await canLaunchUrl(uri);
+                        if (!isAvailable && context.mounted) {
+                          context.showErroMessage(
+                            'Gagal membuka aplikasi eksternal',
+                          );
+                        }
+                        await launchUrl(
+                          uri,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: const Text('Buka Maps'),
+                    ),
+                  ],
+                ),
+                InputFormField(
                   controller: fileName,
                   labelText: 'Logo',
                   placeholderText: 'Pilih File',
@@ -273,7 +229,7 @@ class UpsertBranchDialog extends HookWidget {
                     branch?.imageUrl,
                     uploadSelected.value?.bytes,
                   ),
-                  isRequired: true,
+                  isRequired: false,
                   readOnly: true,
                   onPressed: () async {
                     final result = await _pickAndCompressImage();
@@ -295,12 +251,14 @@ class UpsertBranchDialog extends HookWidget {
   }
 
   Widget _buildImageSelected(String? imageUrl, Uint8List? bytes) {
-    if (imageUrl?.isEmpty == true || imageUrl == null) {
-      return Icon(Icons.photo, size: 20);
-    }
     if (bytes != null) {
       return Image.memory(bytes, width: 56, height: 56, fit: BoxFit.fitWidth);
     }
+
+    if (imageUrl?.isEmpty == true || imageUrl == null) {
+      return Icon(Icons.photo, size: 20);
+    }
+
     return Image.network(imageUrl, width: 56, height: 56, fit: BoxFit.fitWidth);
   }
 

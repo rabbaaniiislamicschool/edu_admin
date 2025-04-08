@@ -1,3 +1,5 @@
+import 'package:edu_admin/features/auth/data/remote/models/user_model.dart';
+import 'package:edu_admin/features/divisions/data/models/division_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../domain/entities/employee.dart';
@@ -11,14 +13,14 @@ abstract class EmployeeModel with _$EmployeeModel {
     @JsonKey(name: 'employee_number_id') required String employeeNumberId,
     @JsonKey(name: 'division_id') int? divisionId,
     @JsonKey(name: 'employee_name') required String employeeName,
-    @JsonKey(name: 'education_level') String? educationLevel,
     @JsonKey(name: 'hired_date') String? hiredDate,
-    @JsonKey(name: 'leave_date', includeIfNull: false) String? leaveDate,
-    @JsonKey(name: 'employment_status') required String employmentStatus,
-    String? position,
-    @JsonKey(name: 'is_teaching') required bool isTeaching,
+    @JsonKey(name: 'leave_date') String? leaveDate,
+    @JsonKey(name: 'status', includeIfNull: false) String? status,
+    @JsonKey(name: 'is_teaching') bool? isTeaching,
     @JsonKey(name: 'created_at', includeToJson: false) String? createdAt,
-    @JsonKey(name: 'update_at', includeIfNull: false) String? updateAt,
+    @JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,
+    @JsonKey(name: 'users', includeToJson: false) UserModel? user,
+    @JsonKey(name: 'divisions', includeToJson: false) DivisionModel? division,
   }) = _EmployeeModel;
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) =>
@@ -31,13 +33,13 @@ extension EmployeeModelX on EmployeeModel {
     employeeNumberId: employeeNumberId,
     divisionId: divisionId,
     employeeName: employeeName,
-    educationLevel: educationLevel,
     hiredDate: hiredDate,
     leaveDate: leaveDate,
-    employmentStatus: employmentStatus,
-    position: position,
+    status: status,
     isTeaching: isTeaching,
     createdAt: createdAt,
-    updateAt: updateAt,
+    updatedAt: updatedAt,
+    division: division?.toEntity(),
+    user: user?.toEntity(),
   );
 }

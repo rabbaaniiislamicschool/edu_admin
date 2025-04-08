@@ -83,7 +83,10 @@ class FoundationDataSourceImpl implements FoundationDataSource {
   @override
   Future<Either<Failure, void>> updateFoundation(FoundationModel foundation) {
     return safeRequest(() async {
-      String? imageUrl = await _uploadFoundationImage(foundation, isUpdate: true);
+      String? imageUrl = await _uploadFoundationImage(
+        foundation,
+        isUpdate: true,
+      );
 
       await _client
           .from('foundations')
@@ -104,23 +107,24 @@ class FoundationDataSourceImpl implements FoundationDataSource {
     });
   }
 
-  Future<String?> _uploadFoundationImage(FoundationModel foundation, {bool isUpdate = false}) async {
+  Future<String?> _uploadFoundationImage(
+    FoundationModel foundation, {
+    bool isUpdate = false,
+  }) async {
     if (foundation.uploadStorage == null) return null;
     final bucket = 'foundations';
     final fileName = foundation.uploadStorage?.fileName;
     final path = 'images/$fileName';
 
-    if(isUpdate && foundation.imageUrl != null){
-      final path = foundation.imageUrl!.split('/storage/v1/object/public/$bucket/').last;
-      final result = await _client.storage.from(bucket).remove([path]);
+    if (isUpdate && foundation.imageUrl != null) {
+      final path =
+          foundation.imageUrl!.split('/storage/v1/object/public/$bucket/').last;
+      await _client.storage.from(bucket).remove([path]);
     }
 
     await _client.storage
         .from(bucket)
-        .uploadBinary(
-          path,
-          foundation.uploadStorage!.bytes
-        );
+        .uploadBinary(path, foundation.uploadStorage!.bytes);
     final publicUrl = _client.storage.from(bucket).getPublicUrl(path);
     return publicUrl;
   }

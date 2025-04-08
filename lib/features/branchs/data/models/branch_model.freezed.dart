@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BranchModel implements DiagnosticableTreeMixin {
 
-@JsonKey(name: 'branch_id', includeToJson: false) int? get branchId;@JsonKey(name: 'foundation_id') String get foundationId;@JsonKey(name: 'branch_name') String get branchName; String? get address;@JsonKey(name: 'phone_number') String? get phoneNumber; String? get email; double? get latitude; double? get longitude;@JsonKey(name: 'created_at', includeToJson: false) String? get createdAt;@JsonKey(name: 'updated_at', includeIfNull: false) String? get updatedAt;@JsonKey(name: 'image_url', includeIfNull: false) String? get imageUrl;@JsonKey(includeToJson: false) FoundationModel? get foundation;@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? get uploadStorage;
+@JsonKey(name: 'branch_id', includeToJson: false) int? get branchId;@JsonKey(name: 'foundation_id') String get foundationId;@JsonKey(name: 'branch_name') String get branchName; String? get address;@JsonKey(name: 'phone_number') String? get phoneNumber; String? get email; double? get latitude; double? get longitude;@JsonKey(name: 'created_at', includeToJson: false) String? get createdAt;@JsonKey(name: 'updated_at', includeIfNull: false) String? get updatedAt;@JsonKey(name: 'image_url', includeIfNull: false) String? get imageUrl;@JsonKey(name: 'foundations', includeToJson: false) FoundationModel? get foundation;@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? get uploadStorage;
 /// Create a copy of BranchModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55,7 +55,7 @@ abstract mixin class $BranchModelCopyWith<$Res>  {
   factory $BranchModelCopyWith(BranchModel value, $Res Function(BranchModel) _then) = _$BranchModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'branch_id', includeToJson: false) int? branchId,@JsonKey(name: 'foundation_id') String foundationId,@JsonKey(name: 'branch_name') String branchName, String? address,@JsonKey(name: 'phone_number') String? phoneNumber, String? email, double? latitude, double? longitude,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,@JsonKey(name: 'image_url', includeIfNull: false) String? imageUrl,@JsonKey(includeToJson: false) FoundationModel? foundation,@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage
+@JsonKey(name: 'branch_id', includeToJson: false) int? branchId,@JsonKey(name: 'foundation_id') String foundationId,@JsonKey(name: 'branch_name') String branchName, String? address,@JsonKey(name: 'phone_number') String? phoneNumber, String? email, double? latitude, double? longitude,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,@JsonKey(name: 'image_url', includeIfNull: false) String? imageUrl,@JsonKey(name: 'foundations', includeToJson: false) FoundationModel? foundation,@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage
 });
 
 
@@ -110,7 +110,7 @@ $FoundationModelCopyWith<$Res>? get foundation {
 @JsonSerializable()
 
 class _BranchModel with DiagnosticableTreeMixin implements BranchModel {
-  const _BranchModel({@JsonKey(name: 'branch_id', includeToJson: false) this.branchId, @JsonKey(name: 'foundation_id') required this.foundationId, @JsonKey(name: 'branch_name') required this.branchName, this.address, @JsonKey(name: 'phone_number') this.phoneNumber, this.email, this.latitude, this.longitude, @JsonKey(name: 'created_at', includeToJson: false) this.createdAt, @JsonKey(name: 'updated_at', includeIfNull: false) this.updatedAt, @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl, @JsonKey(includeToJson: false) this.foundation, @JsonKey(includeFromJson: false, includeToJson: false) this.uploadStorage});
+  const _BranchModel({@JsonKey(name: 'branch_id', includeToJson: false) this.branchId, @JsonKey(name: 'foundation_id') required this.foundationId, @JsonKey(name: 'branch_name') required this.branchName, this.address, @JsonKey(name: 'phone_number') this.phoneNumber, this.email, this.latitude, this.longitude, @JsonKey(name: 'created_at', includeToJson: false) this.createdAt, @JsonKey(name: 'updated_at', includeIfNull: false) this.updatedAt, @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl, @JsonKey(name: 'foundations', includeToJson: false) this.foundation, @JsonKey(includeFromJson: false, includeToJson: false) this.uploadStorage});
   factory _BranchModel.fromJson(Map<String, dynamic> json) => _$BranchModelFromJson(json);
 
 @override@JsonKey(name: 'branch_id', includeToJson: false) final  int? branchId;
@@ -124,7 +124,7 @@ class _BranchModel with DiagnosticableTreeMixin implements BranchModel {
 @override@JsonKey(name: 'created_at', includeToJson: false) final  String? createdAt;
 @override@JsonKey(name: 'updated_at', includeIfNull: false) final  String? updatedAt;
 @override@JsonKey(name: 'image_url', includeIfNull: false) final  String? imageUrl;
-@override@JsonKey(includeToJson: false) final  FoundationModel? foundation;
+@override@JsonKey(name: 'foundations', includeToJson: false) final  FoundationModel? foundation;
 @override@JsonKey(includeFromJson: false, includeToJson: false) final  UploadStorageModel? uploadStorage;
 
 /// Create a copy of BranchModel
@@ -166,7 +166,7 @@ abstract mixin class _$BranchModelCopyWith<$Res> implements $BranchModelCopyWith
   factory _$BranchModelCopyWith(_BranchModel value, $Res Function(_BranchModel) _then) = __$BranchModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'branch_id', includeToJson: false) int? branchId,@JsonKey(name: 'foundation_id') String foundationId,@JsonKey(name: 'branch_name') String branchName, String? address,@JsonKey(name: 'phone_number') String? phoneNumber, String? email, double? latitude, double? longitude,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,@JsonKey(name: 'image_url', includeIfNull: false) String? imageUrl,@JsonKey(includeToJson: false) FoundationModel? foundation,@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage
+@JsonKey(name: 'branch_id', includeToJson: false) int? branchId,@JsonKey(name: 'foundation_id') String foundationId,@JsonKey(name: 'branch_name') String branchName, String? address,@JsonKey(name: 'phone_number') String? phoneNumber, String? email, double? latitude, double? longitude,@JsonKey(name: 'created_at', includeToJson: false) String? createdAt,@JsonKey(name: 'updated_at', includeIfNull: false) String? updatedAt,@JsonKey(name: 'image_url', includeIfNull: false) String? imageUrl,@JsonKey(name: 'foundations', includeToJson: false) FoundationModel? foundation,@JsonKey(includeFromJson: false, includeToJson: false) UploadStorageModel? uploadStorage
 });
 
 
